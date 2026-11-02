@@ -4,13 +4,13 @@
 
 - normalize_mod(a, m): Chuẩn hóa số về khoảng 0 đến m-1
 - add_mod(a, b, m): Cộng modulo
-- substract_mod(a, b, m): Trừ modulo
+- subtract_mod(a, b, m): Trừ modulo
 - multiply_mod(a, b, m): Nhân modulo
 
 ### 2. Thuật toán Euclid:
 
 - gcd(a, b): Tìm ước chung lớn nhất
-- extended(a, b): Tìm gcd và 2 hệ số Bezout
+- extended_gcd(a, b): Tìm gcd và 2 hệ số Bezout
 - is_coprime(a, b): Kiểm tra nguyên tố cùng nhau
 
 ### 3. Nghịch đảo nhân modulo: mod_inverse(a, m)
@@ -31,7 +31,7 @@
 - matrix_add_mod(): Cộng modulo hai ma trận
 - matrix_multiply_mod(): Nhân modulo 2 ma trận
 - determinant(): Tính định thức
-- matrix_inverse_mod(n): Tìm ma trận nghịch đảo modulo
+- matrix_inverse_mod(matrix, modulus): Tìm ma trận nghịch đảo modulo
 
 ## File test_matrix.py:
 
