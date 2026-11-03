@@ -12,11 +12,14 @@ from src.mathematics.modular import (
     zn_star,
 )
 
-# a = normalize_mod(-1002, 25)
-# print(a)
+from src.mathematics.matrix import (
+    determinant,
+    matrix_add_mod,
+    matrix_inverse_mod,
+    matrix_multiply_mod,
+    validate_matrix,
+)
+matrix = [[1, 9, 8],
+          [1, 7, 5]]
 
-# a = gcd(3,99)
-# print(a)
-
-a = mod_inverse(3, 21)
-print(a)
+print(validate_matrix(matrix, square=True))
