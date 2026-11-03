@@ -36,3 +36,9 @@
 ## File test_matrix.py:
 
 - Gồm 52 bài test file matrix.py
+
+- Một số code Python:
+  - assert <condition>: Đảm bảo điều kiện để chạy tiêp chương trình. Nếu không thỏa mãn điều kiện sẽ dừng chương trình và báo lỗi AssertionError
+  - raise: dùng để ném lỗi ra ngoài
+  - isinstance(object, classInfo): Kiểm tra điều kiện đối tượng object có thuộc kiểu dữ liệu classInfo hay không
+  - Kiểu dữ liệu bytes: Kiểu dữ liệu nhị phân

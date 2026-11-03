@@ -38,3 +38,30 @@
     ![Thuật toán extended gcd](../assets/extended_gcd.png)
 - Thuật toán tìm nghịch đảo nhân: Sử dụng thuật toán euclid mở rộng để tìm x rồi xuất ra giá trị x % m
 - Thuật toán tìm Zn\*: Lặp qua từ 0 đến n rồi lấy các giá trị có gcd(a, n) = 1
+
+======================================================================================================
+
+## File matrix.py
+
+- Đây là file gồm các thuật toán về ma trận, là nền tảng cho hệ mật mã dùng ma trận, có các hàm:
+  - validate_matrix(): Kiểm tra ma trận hợp lệ
+  - matrix_add_mod(): Cộng modulo hai ma trận
+  - matrix_multiply_mod(): Nhân modulo 2 ma trận
+  - determinant(): Tính định thức
+  - matrix_inverse_mod(matrix, modulus): Tìm ma trận nghịch đảo modulo
+
+### 1. validate_matrix(matrix, square: bool)
+
+- Đây là hàm dùng để kiểm tra tính hợp lệ của ma trận, đảm bảo ma trận dầu vào của các thuật toán mã hóa là hợp lệ, tránh gây ra những lỗi không mong muốn
+- Các điều kiện kiểm tra:
+  - Kiểm tra cấu trúc đầu vào: đảm bảo đầu vào là cấu trúc sequence dạng [[hàng1], [hàng2]...] hoặc ((hàng1), (hàng2)...), không chấp nhận kiểu dữ liệu khác
+  - Kiểm tra ma trận rỗng: Ma trận phải có ít nhất một hàng và mỗi hàng phải có ít nhất 1 phần tử
+  - Kiểm tra tính đầy đủ: Tất cả hàng phải có cùng số lượng phần tử
+  - Kiểm tra kiểu dữ liệu: Mỗi phần tử của ma trận phải là số nguyên, không chấp nhận kiểu dữ liệu khác như số thực, boolean
+  - Kiểm tra ma trận vuông: Khi square = True, số hàng phải bằng số cột
+- Cách thuật toán hoạt động:
+  - Thuật toán sẽ duyệt qua từng hàng của ma trận. Số phần tử của hàng đầu tiên được dùng để làm số hàng chuẩn để so sánh với các hàng sau, đảm bảo cấu trúc đầy đủ tính chữ nhật của ma trận
+  - Sau khi kiểm tra toàn bộ phần tử và kích thước, thuật toán sẽ kiểm tra điều kiện ma trận vuông nếu được yêu cầu
+  - Đầu ra của hàm sẽ trả về ValuError hoặc TypeError với lỗi tương ứng nếu không thỏa mãn các điều kiện. Ngược lại sẽ trả về tuple gồm (r, c) gồm số hàng và số cột của ma trận
+- Lưu đồ thuật toán<br>
+  ![Thuật toán validate matrix](../assets/validate_matrix.png)
