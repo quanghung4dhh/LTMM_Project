@@ -60,7 +60,7 @@
   - Kiểm tra kiểu dữ liệu: Mỗi phần tử của ma trận phải là số nguyên, không chấp nhận kiểu dữ liệu khác như số thực, boolean
   - Kiểm tra ma trận vuông: Khi square = True, số hàng phải bằng số cột
 - Cách thuật toán hoạt động:
-  - Thuật toán sẽ duyệt qua từng hàng của ma trận. Số phần tử của hàng đầu tiên được dùng để làm số hàng chuẩn để so sánh với các hàng sau, đảm bảo cấu trúc đầy đủ tính chữ nhật của ma trận
+  - Thuật toán sẽ duyệt qua từng hàng của ma trận. Số phần tử của hàng đầu tiên được dùng để làm số cột chuẩn để so sánh với các hàng sau, đảm bảo cấu trúc đầy đủ tính chữ nhật của ma trận
   - Sau khi kiểm tra toàn bộ phần tử và kích thước, thuật toán sẽ kiểm tra điều kiện ma trận vuông nếu được yêu cầu
   - Đầu ra của hàm sẽ trả về ValuError hoặc TypeError với lỗi tương ứng nếu không thỏa mãn các điều kiện. Ngược lại sẽ trả về tuple gồm (r, c) gồm số hàng và số cột của ma trận
 - Lưu đồ thuật toán<br>
@@ -86,7 +86,7 @@
 
 ### 3. \_determinant_unchecked() và determinant():
 
-- Hàm \_determinant_unchecked(matrix) dùng thuật toán Bariess để tính định thức của ma trận vuông có phần tử nguyên
+- Hàm \_determinant_unchecked(matrix) dùng thuật toán Bareiss để tính định thức của ma trận vuông có phần tử nguyên
 - Thuật toán sử dụng phương pháp khử ma trận và phép chia chính xác để hạn chế sự xuất hiện của phân số trong quá trình tính toán. Mục đích thuật toán là dùng các phép biến đổi ma trận để biến ma trận ban đầu thành ma trận tam giác trên
 - Thuật toán này lựa chọn 1 phần tử pivot p = A[k][k] khác 0 lần lượt nằm trên đường chéo chính, nếu pivot đó bằng 0 thì ta sẽ phải đổi hàng, kéo theo sự thay đổi dấu của định thức
 - Nếu toàn bộ các phần tử trên cột k từ hàng k trở xuống đều bằng 0 thì định thức ma trận bằng 0
@@ -118,16 +118,16 @@
   </p>
 - Thuật toán dựa trên công thức tính ma trận nghịch đảo:
   <p align="center">
-    <strong>A^-1 = det(A)^-1 adj(A) (mod n)</strong> <br>
+    <strong>A^-1 = det(A)^-1 adj(A) (mod m)</strong> <br>
     Trong đó adj(A) là ma trận phụ hợp chuyển vị
   </p>
 - Ma trận con và ma trận phụ hợp:
   - Ma trận con theo hàng i, cột j của ma trận vuông A là ma trận A sau khi bỏ đi hàng i và cột j. Kí hiệu là ma trận Mij
-  - Phần bù đại số: Đây là giá trị từng phần tử của ma trận phụ hợp chưa chuyển vị. Kí hiệu là ma trận C
+  - Phần bù đại số: Đây là giá trị từng phần tử của ma trận các phần bù đại số. Kí hiệu là ma trận C
     <p align="center">
       <strong>Cij = (-1)^(i+j) det(Mij)</strong> <br>
     </p>
-  - Sau khi có ma trận phụ hợp là ma trận C[nxn], ta có:
+  - Sau khi có ma trận phần bù đại số là ma trận C[nxn], ta có:
     <p align="center">
       <strong>adj(A) = C^T</strong> <br>
     </p>
