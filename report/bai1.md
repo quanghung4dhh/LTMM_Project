@@ -68,7 +68,7 @@
 
 ### 2. matrix_add_mod(left, right, modulus):
 
-- Hàm matrix_add_mod dùng để thực hiện phép cộng ha ma trận có cùng kích thước theo modulo m. Kết quả của phép toán gồm các phần tử được chuẩn hóa về khoảng 0 đến m-1
+- Hàm matrix_add_mod dùng để thực hiện phép cộng hai ma trận có cùng kích thước theo modulo m. Kết quả của phép toán gồm các phần tử được chuẩn hóa về khoảng 0 đến m-1
 - Hàm sẽ kiểm tra tính hợp lệ của ma trận trước bằng validate_matrix, rồi kiểm tra kích thước của 2 ma trận
 - Nếu 2 ma trận có kích thước khác nhau thì sẽ báo lỗi
 - Ngược lại, sẽ tiến hành cộng từng phần tử của 2 ma trận:
@@ -94,10 +94,10 @@
   ![Bareiss](../assets/Bareiss.png)
 - Sau khi đã hoàn thành biến đổi ma trận ban đầu thành ma trận tam giác trên thì định thức ma trận được tính theo công thức:
   <p align="center">
-    <strong>det(A) = (-1)^m . A'nn</strong>
-    Với m là số lần đổi hàng
-        n là kích thước ma trận vuông
-        A' là ma trận tam giác trên sau khi biến đổi
+    <strong>det(A) = (-1)^m . A'nn</strong> <br>
+    Với m là số lần đổi hàng<br>
+        n là kích thước ma trận vuông<br>
+        A' là ma trận tam giác trên sau khi biến đổi<br>
   </p>
 - Lưu đồ thuật toán: <br>
   ![determinant](../assets/det1.png)
@@ -105,3 +105,31 @@
 - Còn hàm determinant(matrix) đơn giản là kiểm tra ma trận vuông đầu vào có hợp lệ không rồi gọi hàm \_determinant_unchecked(matrix) để tính định thức
 - Lưu đồ thuật toán: <br>
   ![determinant](../assets/det2.png)
+
+### 4. matrix_inverse_mod(matrix, modulus):
+
+- Hàm matrix_inverse_mod(matrix, modulus) dùng để tìm ma trận nghịch đảo của một ma trận vuông theo modulo m. Ma trận nghịch đảo là ma trận thỏa mãn điều kiện
+  <p align="center">
+    <strong>AA^-1 = I mod n</strong> 
+  </p>
+- Không phải toàn bộ ma trận vuông đều tồn tại ma trận nghịch đảo theo modulo m. Một ma trận vuông A muốn tồn tại một ma trận nghịch đảo trên modulo m phải thỏa mãn điều kiện:
+  <p align="center">
+    <strong>gcd(det(A), m) = 1</strong> 
+  </p>
+- Thuật toán dựa trên công thức tính ma trận nghịch đảo:
+  <p align="center">
+    <strong>A^-1 = det(A)^-1 adj(A) (mod n)</strong> <br>
+    Trong đó adj(A) là ma trận phụ hợp chuyển vị
+  </p>
+- Ma trận con và ma trận phụ hợp:
+  - Ma trận con theo hàng i, cột j của ma trận vuông A là ma trận A sau khi bỏ đi hàng i và cột j. Kí hiệu là ma trận Mij
+  - Phần bù đại số: Đây là giá trị từng phần tử của ma trận phụ hợp chưa chuyển vị. Kí hiệu là ma trận C
+    <p align="center">
+      <strong>Cij = (-1)^(i+j) det(Mij)</strong> <br>
+    </p>
+  - Sau khi có ma trận phụ hợp là ma trận C[nxn], ta có:
+    <p align="center">
+      <strong>adj(A) = C^T</strong> <br>
+    </p>
+- Lưu đồ thuật toán: <br>
+  ![Matrix inverse](../assets/inverse_matrix.png)
