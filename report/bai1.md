@@ -65,3 +65,15 @@
   - Đầu ra của hàm sẽ trả về ValuError hoặc TypeError với lỗi tương ứng nếu không thỏa mãn các điều kiện. Ngược lại sẽ trả về tuple gồm (r, c) gồm số hàng và số cột của ma trận
 - Lưu đồ thuật toán<br>
   ![Thuật toán validate matrix](../assets/validate_matrix.png)
+
+### 2. matrix_add_mod(left, right, modulus):
+
+- Hàm matrix_add_mod dùng để thực hiện phép cộng ha ma trận có cùng kích thước theo modulo m. Kết quả của phép toán gồm các phần tử được chuẩn hóa về khoảng 0 đến m-1
+- Hàm sẽ kiểm tra tính hợp lệ của ma trận trước bằng validate_matrix, rồi kiểm tra kích thước của 2 ma trận
+- Nếu 2 ma trận có kích thước khác nhau thì sẽ báo lỗi
+- Ngược lại, sẽ tiến hành cộng từng phần tử của 2 ma trận:
+  <p align="center">
+    <strong>Cij = (Aij + Bij) mod m</strong>
+  </p>
+- Lưu đồ thuật toán: <br>
+  ![Thuật toán matrix add mod](../assets/matrix_add_modulo.png)
