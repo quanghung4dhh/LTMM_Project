@@ -77,3 +77,31 @@
   </p>
 - Lưu đồ thuật toán: <br>
   ![Thuật toán matrix add mod](../assets/matrix_add_modulo.png)
+
+### 2. matrix_multiply_mod(left, right, modulus):
+
+- Hàm matrix_multiply_mod dùng để nhân hai ma trận với kích thước phù hợp theo modulo m, kết quả đầu ra gồm các phần tử chuẩn hóa từ 0 đến m-1
+- Lưu đồ thuật toán:
+  ![Thuật toán matrix multiply mod](../assets/multiply_matrix_modulo.png)
+
+### 3. \_determinant_unchecked() và determinant():
+
+- Hàm \_determinant_unchecked(matrix) dùng thuật toán Bariess để tính định thức của ma trận vuông có phần tử nguyên
+- Thuật toán sử dụng phương pháp khử ma trận và phép chia chính xác để hạn chế sự xuất hiện của phân số trong quá trình tính toán. Mục đích thuật toán là dùng các phép biến đổi ma trận để biến ma trận ban đầu thành ma trận tam giác trên
+- Thuật toán này lựa chọn 1 phần tử pivot p = A[k][k] khác 0 lần lượt nằm trên đường chéo chính, nếu pivot đó bằng 0 thì ta sẽ phải đổi hàng, kéo theo sự thay đổi dấu của định thức
+- Nếu toàn bộ các phần tử trên cột k từ hàng k trở xuống đều bằng 0 thì định thức ma trận bằng 0
+- Sau khi tìm được pivot hợp lệ thì ta sẽ cập nhật các phần tử nằm phía dưới, bên phải pivot theo công thức:<br>
+  ![Bareiss](../assets/Bareiss.png)
+- Sau khi đã hoàn thành biến đổi ma trận ban đầu thành ma trận tam giác trên thì định thức ma trận được tính theo công thức:
+  <p align="center">
+    <strong>det(A) = (-1)^m . A'nn</strong>
+    Với m là số lần đổi hàng
+        n là kích thước ma trận vuông
+        A' là ma trận tam giác trên sau khi biến đổi
+  </p>
+- Lưu đồ thuật toán: <br>
+  ![determinant](../assets/det1.png)
+
+- Còn hàm determinant(matrix) đơn giản là kiểm tra ma trận vuông đầu vào có hợp lệ không rồi gọi hàm \_determinant_unchecked(matrix) để tính định thức
+- Lưu đồ thuật toán: <br>
+  ![determinant](../assets/det2.png)
