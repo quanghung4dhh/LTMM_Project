@@ -110,7 +110,7 @@
 
 - Hàm matrix_inverse_mod(matrix, modulus) dùng để tìm ma trận nghịch đảo của một ma trận vuông theo modulo m. Ma trận nghịch đảo là ma trận thỏa mãn điều kiện
   <p align="center">
-    <strong>AA^-1 = I mod n</strong> 
+    <strong>AA^-1 = I mod m</strong> 
   </p>
 - Không phải toàn bộ ma trận vuông đều tồn tại ma trận nghịch đảo theo modulo m. Một ma trận vuông A muốn tồn tại một ma trận nghịch đảo trên modulo m phải thỏa mãn điều kiện:
   <p align="center">
