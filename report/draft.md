@@ -53,6 +53,9 @@
 - iter_alpha_position(str)->iterator: Duyệt các vị trí chứa A-Z
 
 ## File classical.substitution:
-- shift_encrypt(plain, key): mã hóa
-- shift_decrypt(cipher, key): giải mã
-- _shift_text(text, key, decrypt): Hàm xử lý chung
+- shift_encrypt(plain, key): mã hóa shift cipher
+- shift_decrypt(cipher, key): giải mã shift cipher
+- _shift_text(text, key, decrypt): Hàm xử lý chung cho shift cipher
+- multiplicative_encrypt(): Mã hóa Multiplicative cipher
+- multiplicative_decrypt(): Giải mã Multiplicative cipher
+- _multiplicative_text(): Xử lý chung cho Multiphicative cipher
