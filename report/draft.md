@@ -42,3 +42,12 @@
   - raise: dùng để ném lỗi ra ngoài
   - isinstance(object, classInfo): Kiểm tra điều kiện đối tượng object có thuộc kiểu dữ liệu classInfo hay không
   - Kiểu dữ liệu bytes: Kiểu dữ liệu nhị phân
+
+=====================================================================================================
+## File classical.common:
+
+- is_ascii_letter(char)->bool: Xác định 1 ký tự có thuộc A-Z không
+- char_to_number(char)->int: Chuyển ký tự đầu vào thành số nguyên 0-25 tương ứng
+- number_to_char(int, uppercase=True)->char: Chuyển số thành ký tự tương ứng
+- normalize_alpha_key(str)->str: Kiểm tra và chuẩn hóa khóa
+- iter_alpha_position(str)->iterator: Duyệt các vị trí chứa A-Z
