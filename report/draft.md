@@ -76,3 +76,9 @@
 - autokey_encrypt(): Mã hóa autokey
 - autokey_decrypt(): Giải mã autokey
 - \_autokey_text(): Hàm xử lý chung cho autokey cipher
+
+## File classical.hill:
+- hill_encrypt(): Mã hóa Hill
+- hill_decrypt(): Giải mã Hill
+- _prepare_key_matrix(): Kiểm tra tính hợp lệ của ma trận khóa
+- _validate_text(): Kiểm tra tính hợp lệ của plaintext
