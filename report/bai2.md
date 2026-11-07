@@ -40,3 +40,20 @@
 - normalize_alpha_key(str)->str: Kiểm tra và chuẩn hóa khóa
 - iter_alpha_positions(str)->iterator: Duyệt các vị trí chứa A-Z, trả về iterator chứa (position, char)
   - Ý nghĩa của hàm này là chỉ trả về vị trí của những ký tự từ A-Z, sau phần mã hóa thì chỉ cần thay đổi những ký tự ở vị trí này, giúp giữ nguyên dấu câu, dấu cách và ký tự nằm ngoài A-Z
+
+## File classical.substitution
+
+- Đây là thuật toán mật mã thay thế gồm 3 loại mật mã là mật mã dịch, mật mã nhân và mật mã Affine
+
+### 1. Mật mã dịch (Shift Cipher):
+
+- Đây là mật mã cổ điển đơn giản nhất
+- Ý tưởng của nó là dịch chuyển mỗi ký tự trong bản rõ đi một số vị trí cố định trong bảng chữ cái
+- Công thức mã hóa: C = (K+P) mod 26
+- Đối với mật mã dịch, khóa có thể là bất ký số nguyên nào (theo quy ước trên), bởi vì sau khi chuẩn hóa, mỗi khóa đều có một nghịch đảo cộng tương ứng dùng để giải mã
+- Lưu đồ thuật toán mã hóa: <br>
+  ![Shift Encryption](../assets/shift_encrypt.png)
+  <br>
+- Lưu đồ thuật toán giải mã: <br>
+  ![Shift Decryption](../assets/shift_decrypt.png)
+
