@@ -1,7 +1,6 @@
 """Monoalphabetic substitution ciphers.
 
-This module implements the Shift (Caesar) and Multiplicative ciphers.
-Affine Cipher can be added here in a later step.
+This module implements the Shift (Caesar), Multiplicative, and Affine ciphers.
 """
 
 from __future__ import annotations
@@ -185,3 +184,64 @@ def multiplicative_decrypt(ciphertext: str, key: int) -> str:
         ValueError: If the key is not invertible modulo 26.
     """
     return _multiplicative_text(ciphertext, key, decrypt=True)
+
+
+def _affine_text(text: str, a: int, b: int, *, decrypt: bool) -> str:
+    """Apply Affine Cipher to ASCII letters in *text*.
+
+    The key parameters are normalized modulo 26. The multiplicative
+    parameter ``a`` must be invertible modulo 26; ``b`` may be any integer.
+    """
+    if not isinstance(text, str):
+        raise TypeError(f"text must be a string, got {type(text).__name__}")
+
+    normalized_a = normalize_mod(a, MODULUS)
+    normalized_b = normalize_mod(b, MODULUS)
+
+    # Affine is reversible only when a has a multiplicative inverse modulo 26.
+    common_divisor = gcd(normalized_a, MODULUS)
+    if common_divisor != 1:
+        raise ValueError(
+            "multiplicative key 'a' must be relatively prime to 26; "
+            f"gcd({normalized_a}, 26) = {common_divisor}"
+        )
+
+    # Encryption uses a; decryption uses a^(-1). The additive parameter b
+    # is subtracted before multiplying by a^(-1) during decryption.
+    inverse_a = mod_inverse(normalized_a, MODULUS) if decrypt else None
+
+    result = list(text)
+    for index, char in iter_alpha_positions(text):
+        value = char_to_number(char)
+
+        if decrypt:
+            shifted_value = subtract_mod(value, normalized_b, MODULUS)
+            transformed = multiply_mod(shifted_value, inverse_a, MODULUS)
+        else:
+            multiplied_value = multiply_mod(value, normalized_a, MODULUS)
+            transformed = add_mod(multiplied_value, normalized_b, MODULUS)
+
+        result[index] = number_to_char(
+            transformed,
+            uppercase=("A" <= char <= "Z"),
+        )
+
+    return "".join(result)
+
+
+def affine_encrypt(plaintext: str, a: int, b: int) -> str:
+    """Encrypt with Affine Cipher: ``C = (a * P + b) mod 26``.
+
+    ``a`` must be relatively prime to 26. ``b`` can be any integer; both
+    parameters are normalized modulo 26. Only ASCII letters are transformed.
+    """
+    return _affine_text(plaintext, a, b, decrypt=False)
+
+
+def affine_decrypt(ciphertext: str, a: int, b: int) -> str:
+    """Decrypt with Affine Cipher: ``P = a^(-1) * (C - b) mod 26``.
+
+    ``a`` must be relatively prime to 26. ``b`` can be any integer; both
+    parameters are normalized modulo 26. Only ASCII letters are transformed.
+    """
+    return _affine_text(ciphertext, a, b, decrypt=True)

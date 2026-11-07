@@ -44,6 +44,7 @@
   - Kiểu dữ liệu bytes: Kiểu dữ liệu nhị phân
 
 =====================================================================================================
+
 ## File classical.common:
 
 - is_ascii_letter(char)->bool: Xác định 1 ký tự có thuộc A-Z không
@@ -53,9 +54,13 @@
 - iter_alpha_position(str)->iterator: Duyệt các vị trí chứa A-Z
 
 ## File classical.substitution:
+
 - shift_encrypt(plain, key): mã hóa shift cipher
 - shift_decrypt(cipher, key): giải mã shift cipher
-- _shift_text(text, key, decrypt): Hàm xử lý chung cho shift cipher
+- \_shift_text(text, key, decrypt): Hàm xử lý chung cho shift cipher
 - multiplicative_encrypt(): Mã hóa Multiplicative cipher
 - multiplicative_decrypt(): Giải mã Multiplicative cipher
-- _multiplicative_text(): Xử lý chung cho Multiphicative cipher
+- \_multiplicative_text(): Xử lý chung cho Multiphicative cipher
+- affine_encrypt(): Mã hóa affine
+- affine_decrypt(): Giải mã affine
+- \_affine_text(): Hàm xử lý chung cho affine cipher
