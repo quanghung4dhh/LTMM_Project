@@ -51,3 +51,8 @@
 - number_to_char(int, uppercase=True)->char: Chuyển số thành ký tự tương ứng
 - normalize_alpha_key(str)->str: Kiểm tra và chuẩn hóa khóa
 - iter_alpha_position(str)->iterator: Duyệt các vị trí chứa A-Z
+
+## File classical.substitution:
+- shift_encrypt(plain, key): mã hóa
+- shift_decrypt(cipher, key): giải mã
+- _shift_text(text, key, decrypt): Hàm xử lý chung
