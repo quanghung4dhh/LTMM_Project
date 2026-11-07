@@ -50,6 +50,7 @@
 - Đây là mật mã cổ điển đơn giản nhất
 - Ý tưởng của nó là dịch chuyển mỗi ký tự trong bản rõ đi một số vị trí cố định trong bảng chữ cái
 - Công thức mã hóa: C = (K+P) mod 26
+- Công thức giải mã: P = (C-K) mod 26
 - Đối với mật mã dịch, khóa có thể là bất ký số nguyên nào (theo quy ước trên), bởi vì sau khi chuẩn hóa, mỗi khóa đều có một nghịch đảo cộng tương ứng dùng để giải mã
 - Lưu đồ thuật toán mã hóa: <br>
   ![Shift Encryption](../assets/shift_encrypt.png)
@@ -57,3 +58,17 @@
 - Lưu đồ thuật toán giải mã: <br>
   ![Shift Decryption](../assets/shift_decrypt.png)
 
+### 2. Mật mã nhân (Multiplicative Cipher):
+
+- Mật mã nhân là mật mã thay vì dùng phép cộng modulo thì lại dùng phép nhân modulo
+- Cụ thể, mật mã nhân sẽ thực hiện phép nhân giá trị mỗi ký tự với một khóa cố định, rồi sau đó lấy phần dư modulo 26
+- Vì mật mã nhân thực hiện phép nhân với khóa, cho nên điều kiện để có thể giải mã là giá trị khóa phải có nghịch đảo nhân hay thuộc tập Z_26\*
+- Công thức mã hóa: C = (KP) mod 26
+- Công thức giải mã: P = (K^-1 C) mod 26
+- Đối với mật mã nhân, điều kiện của khóa là phải có nghịch đảo nhân hay gcd(K,26) = 1
+
+- Lưu đồ thuật toán mã hóa: <br>
+  ![Multiplicative Encryption](../assets/multiplicative_encrypt.png)
+  <br>
+- Lưu đồ thuật toán giải mã: <br>
+  ![Multiplicative Decryption](../assets/multiplicative_decrypt.png)
