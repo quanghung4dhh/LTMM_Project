@@ -72,3 +72,16 @@
   <br>
 - Lưu đồ thuật toán giải mã: <br>
   ![Multiplicative Decryption](../assets/multiplicative_decrypt.png)
+
+### 3. Mật mã Affine (Affine Cipher):
+
+- Mật mã Affine là mật mã kết hợp cả hai loại mật mã: mật mã dịch và mật mã nhân
+- Vì thế, mật mã Affine cho ta một miền khóa rộng hơn là một cặp khóa (K1, K2)
+- Công thức mã hóa: C = (K1P + K2) mod 26
+- Công thức giải mã: P = K^-1(C - K2) mod 26
+- Lưu đồ thuật toán mã hóa: <br>
+  ![Affine Encryption](../assets/affine_encrypt.png)
+  <br>
+- Lưu đồ thuật toán giải mã: <br>
+  ![Affine Decryption](../assets/affine_decrypt.png)
+
