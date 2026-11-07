@@ -2,7 +2,7 @@
 
 import pytest
 
-from classical.hill import hill_decrypt, hill_encrypt
+from src.classical.hill import hill_decrypt, hill_encrypt
 
 
 KEY_2X2 = [[3, 3], [2, 5]]
