@@ -67,6 +67,12 @@
 
 ## File classical.vigenere:
 
-- vigenere_encrypt: Mã hóa vigenere
-- vigenere_decrypt: Giải mã vigenere
-- \_vigenere_text: Hàm xử lý chung cho vigenere cipher
+- vigenere_encrypt(): Mã hóa vigenere
+- vigenere_decrypt(): Giải mã vigenere
+- \_vigenere_text(): Hàm xử lý chung cho vigenere cipher
+
+## File classical.autokey:
+
+- autokey_encrypt(): Mã hóa autokey
+- autokey_decrypt(): Giải mã autokey
+- \_autokey_text(): Hàm xử lý chung cho autokey cipher
