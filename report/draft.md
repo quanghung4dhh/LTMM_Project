@@ -64,3 +64,9 @@
 - affine_encrypt(): Mã hóa affine
 - affine_decrypt(): Giải mã affine
 - \_affine_text(): Hàm xử lý chung cho affine cipher
+
+## File classical.vigenere:
+
+- vigenere_encrypt: Mã hóa vigenere
+- vigenere_decrypt: Giải mã vigenere
+- \_vigenere_text: Hàm xử lý chung cho vigenere cipher
