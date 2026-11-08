@@ -41,6 +41,8 @@
 - iter_alpha_positions(str)->iterator: Duyệt các vị trí chứa A-Z, trả về iterator chứa (position, char)
   - Ý nghĩa của hàm này là chỉ trả về vị trí của những ký tự từ A-Z, sau phần mã hóa thì chỉ cần thay đổi những ký tự ở vị trí này, giúp giữ nguyên dấu câu, dấu cách và ký tự nằm ngoài A-Z
 
+======================================================================================================
+
 ## File classical.substitution
 
 - Đây là thuật toán mật mã thay thế gồm 3 loại mật mã là mật mã dịch, mật mã nhân và mật mã Affine
@@ -85,7 +87,9 @@
 - Lưu đồ thuật toán giải mã: <br>
   ![Affine Decryption](../assets/affine_decrypt.png)
 
-### 4. Mật mã Vigenre (classical.vigenere)
+====================================================================================================
+
+## Mật mã Vigenere (classical.vigenere)
 
 - Mật mã vigenere là mật mã sử dụng một chuỗi khóa để mã hóa văn bản
 - Khóa chuỗi sẽ lặp lại cho đến khi đủ độ dài bằng văn bản cần mã hóa
@@ -102,3 +106,23 @@
   <br>
 - Lưu đồ thuật toán giải mã: <br>
   ![Vigenere Decryption](../assets/vigenere_decrypt.png)
+
+====================================================================================================
+
+## Mật mã autokey (classical.autokey)
+
+- Mật mã autokey là mật mã dùng một khóa ngắn (seed key) nối tiếp ngay là nội dung bản rõ, sau đó cắt chuỗi sao cho chuỗi khóa này có độ dài bằng bản rõ. Do đó, khóa sẽ dài bằng bản rõ và không bao giờ lặp lại theo chu kỳ ngắn
+- VD:
+  - P: ATTACKATDAWN
+  - S: QUEEN
+  - K: QUEENATTACKA
+- Giá trị khóa được xác định: Ki = Si, i<=r hoặc Ki = P_i-r, i>r
+- Với S là seed key, r là độ dài seed key
+- Công thức mã hóa: Ci = (Pi + Ki) mod 26
+- Công thức giải mã: Pi = (Ci - Ki) mod 26
+- Khi giải mã, những ký tự đầu tiên sẽ dùng seed key, khi đã hết seed key, ta sẽ sử dụng những ký tự đã được giải mã trước đó để giải mã hết phần tiếp theo. Do đó, khi giải mã autokey, việc giải mã phải diễn ra tuần tự, không thể tạo được dòng khóa ngay từ đầu
+- Lưu đồ thuật toán mã hóa: <br>
+  ![Autokey Encryption](../assets/autokey_encrypt.png)
+  <br>
+- Lưu đồ thuật toán giải mã: <br>
+  ![Autokey Decryption](../assets/autokey_decrypt.png)
