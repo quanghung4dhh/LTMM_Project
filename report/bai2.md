@@ -145,6 +145,7 @@
 - Để có thể giải mã, ma trận khóa phải là ma trận khả nghịch trên modulo 26, tức là gcd(det(K), 26)=1
 - Công thức mã hóa: Ci = (KPi) mod 26
 - Công thức giải mã: Pi = (K^-1 Ci) mod 26
+- Trong khi giải mã, tham số truyền vào phải bao gồm cả độ dài đệm padding_length, để tránh xóa nhầm chữ X vốn có trong bản rõ
 - Lưu đồ thuật toán mã hóa:<br>
   ![Hill Encryption](../assets/hill_encrypt.png)
   <br>
