@@ -116,7 +116,7 @@
   - P: ATTACKATDAWN
   - S: QUEEN
   - K: QUEENATTACKA
-- Giá trị khóa được xác định: Ki = Si, i<=r hoặc Ki = P_i-r, i>r
+- Giá trị khóa được xác định: Ki = Si, 0<=i<r hoặc Ki = P_i-r, i>=r
 - Với S là seed key, r là độ dài seed key
 - Công thức mã hóa: Ci = (Pi + Ki) mod 26
 - Công thức giải mã: Pi = (Ci - Ki) mod 26
