@@ -17,4 +17,4 @@
 
 - Ma trận hoán vị: Khóa chuyển vị kích thước m được biểu diễn thành ma trận vuông khóa K kích thước mxm, trong đó mỗi hàng và mỗi cột có duy nhất 1 giá trị 1, còn lại là giá trị 0
 - Mã hóa bằng phép nhân ma trận: C = PK
-- Tính chất chuyển vị ma trận ($K^{-1} = K^T$): Để giải mã, ta nhân bản mã với ma trận nghịch đảo của khóa: P = $K^{-1}C = K^T$C
+- Tính chất chuyển vị ma trận ($K^{-1} = K^T$): Để giải mã, ta nhân bản mã với ma trận nghịch đảo của khóa: P = $K^{-1}$ C = $K^T$ C
