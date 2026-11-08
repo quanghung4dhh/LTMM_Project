@@ -85,3 +85,20 @@
 - Lưu đồ thuật toán giải mã: <br>
   ![Affine Decryption](../assets/affine_decrypt.png)
 
+### 4. Mật mã Vigenre (classical.vigenere)
+
+- Mật mã vigenere là mật mã sử dụng một chuỗi khóa để mã hóa văn bản
+- Khóa chuỗi sẽ lặp lại cho đến khi đủ độ dài bằng văn bản cần mã hóa
+- VD:
+  - P: ATTACKATDAWN
+  - K: LEMON
+  - Khi đó khóa K sẽ lặp lại cho đến khi hết bản rõ P:
+  - P: ATTACKATDAWN
+  - K: LEMONLEMONLE
+- Công thức mã hóa: Ci = (Pi + Ki) mod 26
+- Công thức giải mã: Pi = (Ci - Ki) mod 26
+- Lưu đồ thuật toán mã hóa: <br>
+  ![Vigenere Encryption](../assets/vigenere_encrypt.png)
+  <br>
+- Lưu đồ thuật toán giải mã: <br>
+  ![Vigenere Decryption](../assets/vigenere_decrypt.png)
