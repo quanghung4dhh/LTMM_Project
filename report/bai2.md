@@ -126,3 +126,27 @@
   <br>
 - Lưu đồ thuật toán giải mã: <br>
   ![Autokey Decryption](../assets/autokey_decrypt.png)
+
+====================================================================================================
+
+## Mật mã Hill (classical.hill)
+
+- Mật mã Hill là mật mã thay thế theo khối, với ma trận khóa là một ma trận vuông có kích thước lớn hơn 1, thỏa mãn tính khả nghịch trên modulo 26
+- Với loại mật mã này, thay vì mã hóa từng ký tự, ta sẽ:
+  - Chia bản rõ thành từng khối có kích thước cố định
+  - Chuyển mỗi khối thành vector số
+  - Nhân vector khối với ma trận khóa theo modulo 26
+  - Chuyển các giá trị số trở lại thành ký tự
+- VD: Với ma trận khóa K3x3, bản rõ là P = HELLOWORLD, ta sẽ chia như sau:
+  - P: HEL | LOW | ORL | DXX |, (khối cuối cùng bị thiếu nên ta padding thêm ký tự X)
+  - Chuyển thành vector cột: HEL = [7 4 11]^T = P1
+  - Nhân modulo với ma trận khóa: C1 = KP1 mod 26
+  - Chuyển lại thành ký tự
+- Để có thể giải mã, ma trận khóa phải là ma trận khả nghịch trên modulo 26, tức là gcd(det(K), 26)=1
+- Công thức mã hóa: Ci = (KPi) mod 26
+- Công thức giải mã: Pi = (K^-1 Ci) mod 26
+- Lưu đồ thuật toán mã hóa:<br>
+  ![Hill Encryption](../assets/hill_encrypt.png)
+  <br>
+- Lưu đồ thuật toán giải mã: <br>
+  ![Hill Decryption](../assets/hill_decrypt.png)
