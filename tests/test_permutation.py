@@ -20,7 +20,7 @@ class TestValidatePermutation:
         ],
     )
     def test_accepts_valid_permutations(self, permutation):
-        assert validate_permutation(permutation) is None
+        assert validate_permutation(permutation) > 0
 
     @pytest.mark.parametrize(
         "permutation",
