@@ -58,3 +58,41 @@
   <br>
 - Lưu đồ thuật toán giải mã: <br>
   ![Rail Fence Decryption](../assets/rail_fence_decrypt.png)
+
+====================================================================================================
+
+## Mật mã chuyển vị cột
+
+- Mật mã chuyển vị cột là mật mã chuyển vị có khóa hoán vị là biểu diễn dãy số cho phép hoán vị
+- Mật mã chuyển vị cột có thể có khóa hoặc không khóa
+- Khóa hoán vị tiêu chuẩn: K = (3, 2, 6, 1, 5, 4)
+- Các bước mã hóa: Với khóa K có m cột
+  - B1: Sắp xếp lần lượt các kí tự của bản rõ K vào m cột, từ trái sang phải, từ trên xuống dưới. Nếu hàng cuối thiếu ký tự thì chèn thêm ký tự giả
+  - B2: Hoán vị các cột theo quy tắc của khóa K
+  - B3: Đọc các ký tự trong bảng đã hoán vị theo từng cột từ trên xuống dưới, ghép thành bản mã
+- Thuật toán giải mã:
+  - B1: Xác định số cột m của khóa
+  - B2: Tìm khóa nghịch đảo
+  - B3: Viết các ký tự của bản mã vào theo từng cột từ trên xuống dưới
+  - B4: Sắp xếp lại các cột theo quy tắc của khóa nghịch đảo
+  - B5: Đọc lần lượt các ký tự theo hàng ngang, ghép thành bản rõ
+- VD mã hóa: P = WELCOME TO THE WORLD, K = (3, 2, 6, 1, 5, 4)
+  - P = WELCOMETOTHEWORLD
+  - h1: W E L C O M
+  - h2: E T O T H E
+  - h3: W O R L D .
+  - Sử dụng khóa K để hoán vị các cột:
+    - h1: L E M W O C
+    - h2: O T E E H T
+    - h3: R O X W D L
+  - C = LORETOMEXWEWOHDCTL
+- VD giải mã: C = LORETOMEXWEWOHDCTL, K = (3, 2, 6, 1, 5, 4)
+  - $K^-1$ = (4, 2, 1, 6, 5, 3)
+  - h1: L E M W O C
+  - h2: O T E E H T
+  - h3: R O X W D L
+  - Sử dụng khóa K để hoán vị lại các cột về vị trí ban đầu
+    - h1: W E L C O M
+    - h2: E T O T H E
+    - h3: W O R L D X
+  - P = WELCOMETOTHEWORLDX
