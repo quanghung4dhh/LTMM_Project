@@ -7,6 +7,7 @@ from src.classical.transposition import (
     rail_fence_encrypt,
     rail_fence_decrypt,
     columnar_encrypt,
+    columnar_decrypt,
 )
 
 
@@ -250,3 +251,125 @@ class TestColumnarEncrypt:
     def test_rejects_non_string_plaintext(self, plaintext):
         with pytest.raises(TypeError):
             columnar_encrypt(plaintext, [3, 1, 4, 2])
+
+
+class TestColumnarDecrypt:
+
+    @pytest.mark.parametrize(
+        ("ciphertext", "key", "expected"),
+        [
+            (
+                "TAWACDATNTKA",
+                [3, 1, 4, 2],
+                "ATTACKATDAWN",
+            ),
+            (
+                "LOHOLLREWD",
+                [3, 1, 4, 2],
+                "HELLOWORLD",
+            ),
+            (
+                "ROPPRYCTAYGH",
+                [2, 4, 1, 3],
+                "CRYPTOGRAPHY",
+            ),
+            (
+                "LORETOMEWEWOHDCTL",
+                [3, 2, 6, 1, 5, 4],
+                "WELCOMETOTHEWORLD",
+            ),
+            (
+                "AEBFCGDH",
+                [1, 2, 3, 4],
+                "ABCDEFGH",
+            ),
+            (
+                "BAC",
+                [2, 4, 1, 3],
+                "ABC",
+            ),
+            (
+                "",
+                [3, 1, 4, 2],
+                "",
+            ),
+            (
+                "A",
+                [1],
+                "A",
+            ),
+            (
+                ",BAé!",
+                [2, 1],
+                "A,éB!",
+            ),
+        ],
+    )
+    def test_decrypt_known_cases(self, ciphertext, key, expected):
+        assert columnar_decrypt(ciphertext, key) == expected
+
+    @pytest.mark.parametrize(
+        "key",
+        [
+            [],
+            [1, 1],
+            [0, 1],
+            [1, 3],
+        ],
+    )
+    def test_rejects_invalid_permutations(self, key):
+        with pytest.raises(ValueError):
+            columnar_decrypt("TAWACDATNTKA", key)
+
+    @pytest.mark.parametrize(
+        "key",
+        [
+            None,
+            123,
+            "123",
+            [True, 2],
+            [1, 2.5],
+        ],
+    )
+    def test_rejects_invalid_key_types(self, key):
+        with pytest.raises(TypeError):
+            columnar_decrypt("TAWACDATNTKA", key)
+
+    @pytest.mark.parametrize(
+        "ciphertext",
+        [
+            None,
+            123,
+            b"ABC",
+        ],
+    )
+    def test_rejects_non_string_ciphertext(self, ciphertext):
+        with pytest.raises(TypeError):
+            columnar_decrypt(ciphertext, [3, 1, 4, 2])
+
+
+class TestColumnarRoundTrip:
+
+    @pytest.mark.parametrize(
+        ("plaintext", "key"),
+        [
+            ("ATTACKATDAWN", [3, 1, 4, 2]),
+            ("HELLOWORLD", [3, 1, 4, 2]),
+            ("CRYPTOGRAPHY", [2, 4, 1, 3]),
+            ("WELCOMETOTHEWORLD", [3, 2, 6, 1, 5, 4]),
+            ("ABCDEFGH", [1, 2, 3, 4]),
+            ("ABC", [2, 4, 1, 3]),
+            ("", [3, 1, 4, 2]),
+            ("A", [1]),
+            ("A,éB!", [2, 1]),
+        ],
+    )
+    def test_decrypt_after_encrypt_restores_original(
+        self,
+        plaintext,
+        key,
+    ):
+        ciphertext = columnar_encrypt(plaintext, key)
+        recovered = columnar_decrypt(ciphertext, key)
+
+        assert recovered == plaintext

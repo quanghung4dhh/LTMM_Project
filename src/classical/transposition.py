@@ -5,7 +5,10 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 
-from src.mathematics.permutation import validate_permutation
+from src.mathematics.permutation import (
+    validate_permutation,
+    inverse_permutation,
+)
 
 
 def _validate_text(text: str, name: str) -> None:
@@ -256,3 +259,86 @@ def columnar_encrypt(
 
     # Step 5: Concatenate column contents.
     return "".join(ciphertext_parts)
+
+
+def columnar_decrypt(
+    ciphertext: str,
+    key: Sequence[int],
+) -> str:
+    """Decrypt ciphertext using Columnar Transposition.
+
+    No padding is assumed. The original column lengths are
+    reconstructed from the ciphertext length and the key size.
+
+    Args:
+        ciphertext: Text to decrypt.
+        key: Valid permutation describing the order in which
+            the columns were read during encryption.
+
+    Returns:
+        Recovered plaintext.
+
+    Raises:
+        TypeError: If ciphertext or key contains invalid types.
+        ValueError: If key is not a valid permutation.
+
+    Examples:
+        >>> columnar_decrypt("TAWACDATNTKA", [3, 1, 4, 2])
+        'ATTACKATDAWN'
+
+        >>> columnar_decrypt("ROPPRYCTAYGH", [2, 4, 1, 3])
+        'CRYPTOGRAPHY'
+    """
+    # Step 1: Validate inputs and calculate the inverse permutation.
+    _validate_text(ciphertext, "ciphertext")
+
+    inverse_key = inverse_permutation(key)
+    column_count = len(inverse_key)
+
+    # Step 2: Handle empty ciphertext.
+    if not ciphertext:
+        return ""
+
+    # Step 3: Calculate the original length of each column.
+    quotient, remainder = divmod(
+        len(ciphertext),
+        column_count,
+    )
+
+    column_lengths = [
+        quotient + (1 if index < remainder else 0)
+        for index in range(column_count)
+    ]
+
+    # Step 4: Split ciphertext into segments in key order.
+    segments = []
+    cursor = 0
+
+    for column_number in key:
+        column_length = column_lengths[column_number - 1]
+
+        segments.append(
+            ciphertext[cursor:cursor + column_length]
+        )
+
+        cursor += column_length
+
+    # Step 5: Restore original column order using inverse permutation.
+    columns = [
+        segments[position - 1]
+        for position in inverse_key
+    ]
+
+    # Step 6: Read the reconstructed columns row by row.
+    plaintext_chars = []
+    row_count = quotient + (1 if remainder > 0 else 0)
+
+    for row in range(row_count):
+        for column_index in range(column_count):
+            if row < len(columns[column_index]):
+                plaintext_chars.append(
+                    columns[column_index][row]
+                )
+
+    # Step 7: Join recovered characters.
+    return "".join(plaintext_chars)
