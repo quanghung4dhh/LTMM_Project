@@ -104,3 +104,92 @@ def rail_fence_encrypt(plaintext: str, rails: int) -> str:
     )
 
     return ciphertext
+
+
+def rail_fence_decrypt(ciphertext: str, rails: int) -> str:
+    """Decrypt ciphertext using the Rail Fence cipher.
+
+    The original zigzag pattern is reconstructed first. The ciphertext
+    is then split into rail segments and read according to that pattern.
+
+    All characters, including spaces, punctuation, digits, and Unicode
+    characters, are preserved.
+
+    Args:
+        ciphertext: Text to decrypt.
+        rails: Positive number of rails used during encryption.
+
+    Returns:
+        Recovered plaintext.
+
+    Raises:
+        TypeError: If ciphertext is not a string or rails is not an integer.
+        ValueError: If rails is not positive.
+
+    Examples:
+        >>> rail_fence_decrypt("WECRERDSOEEAIVD", 3)
+        'WEAREDISCOVERED'
+
+        >>> rail_fence_decrypt("HLOOLELWRD", 2)
+        'HELLOWORLD'
+    """
+    # Step 1: Validate inputs.
+    _validate_text(ciphertext, "ciphertext")
+    _validate_rails(rails)
+
+    # Step 2: Handle special cases.
+    if not ciphertext:
+        return ""
+
+    if rails == 1 or rails >= len(ciphertext):
+        return ciphertext
+
+    # Step 3: Reconstruct the original zigzag pattern.
+    rail_pattern: list[int] = []
+    rail_counts = [0] * rails
+
+    current_rail = 0
+    direction = 1
+
+    for _ in range(len(ciphertext)):
+        # Record the rail corresponding to this position.
+        rail_pattern.append(current_rail)
+
+        # Count characters belonging to this rail.
+        rail_counts[current_rail] += 1
+
+        # Change direction at the boundaries.
+        if current_rail == 0:
+            direction = 1
+        elif current_rail == rails - 1:
+            direction = -1
+
+        current_rail += direction
+
+    # Step 4: Split ciphertext into rail segments.
+    rail_segments: list[str] = []
+
+    start = 0
+
+    for count in rail_counts:
+        end = start + count
+
+        rail_segments.append(ciphertext[start:end])
+
+        start = end
+
+    # Step 5: Initialize reading positions.
+    rail_positions = [0] * rails
+
+    plaintext_chars: list[str] = []
+
+    # Step 6: Reconstruct plaintext.
+    for rail in rail_pattern:
+        char = rail_segments[rail][rail_positions[rail]]
+
+        plaintext_chars.append(char)
+
+        rail_positions[rail] += 1
+
+    # Step 7: Join recovered characters.
+    return "".join(plaintext_chars)
