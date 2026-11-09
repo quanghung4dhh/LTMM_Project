@@ -133,3 +133,15 @@
     </p>
 - Lưu đồ thuật toán: <br>
   ![Matrix inverse](../assets/inverse_matrix.png)
+
+=====================================================================================================
+
+## File permutation.py:
+
+- Đây là file nền tảng toán học về phép chuyển vị, dùng trong mật mã chuyển vị
+
+### 1. Hàm validate_permutation():
+
+- Hàm này dùng để kiểm tra tính hợp lệ của 1 phép chuyển vị. 1 phép chuyển vị chỉ hợp lệ khi nó có đầy đủ các phần tử từ 1 đến n, mỗi phần tử chỉ xuất hiện 1 lần, với n là độ dài của biểu diễn dãy số của phép hoán vị
+- Lưu đồ thuật toán: <br>
+  ![Permutation validate](../assets/permutation_validate.png)
