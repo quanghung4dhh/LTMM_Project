@@ -3,7 +3,10 @@
 
 import pytest
 
-from src.mathematics.permutation import validate_permutation
+from src.mathematics.permutation import (
+    validate_permutation,
+    inverse_permutation,
+)
 
 
 class TestValidatePermutation:
@@ -78,3 +81,79 @@ class TestValidatePermutation:
     def test_rejects_non_integer_elements(self, permutation):
         with pytest.raises(TypeError):
             validate_permutation(permutation)
+
+
+class TestInversePermutation:
+
+    @pytest.mark.parametrize(
+        ("permutation", "expected"),
+        [
+            ([3, 1, 4, 2], [2, 4, 1, 3]),
+            ([3, 1, 5, 2, 4], [2, 4, 1, 5, 3]),
+            ([1, 2, 3, 4], [1, 2, 3, 4]),
+            ([4, 3, 2, 1], [4, 3, 2, 1]),
+            ([1], [1]),
+            ((2, 3, 1), [3, 1, 2]),
+        ],
+    )
+    def test_inverse_known_cases(self, permutation, expected):
+        assert inverse_permutation(permutation) == expected
+
+    @pytest.mark.parametrize(
+        "permutation",
+        [
+            [],
+            [1, 1, 3],
+            [0, 2, 3],
+            [1, 2, 4],
+        ],
+    )
+    def test_rejects_invalid_permutations(self, permutation):
+        with pytest.raises(ValueError):
+            inverse_permutation(permutation)
+
+    @pytest.mark.parametrize(
+        "permutation",
+        [
+            None,
+            123,
+            "123",
+            [True, 2, 3],
+            [1, 2.5, 3],
+        ],
+    )
+    def test_rejects_invalid_input_types(self, permutation):
+        with pytest.raises(TypeError):
+            inverse_permutation(permutation)
+
+    @pytest.mark.parametrize(
+        "permutation",
+        [
+            [3, 1, 4, 2],
+            [2, 4, 1, 3],
+            [5, 3, 1, 4, 2],
+            [1, 2, 3, 4],
+        ],
+    )
+    def test_inverse_of_inverse_restores_original(self, permutation):
+        inverse = inverse_permutation(permutation)
+
+        assert inverse_permutation(inverse) == list(permutation)
+
+    def test_inverse_restores_original_order(self):
+        original = ["A", "B", "C", "D"]
+        permutation = [3, 1, 4, 2]
+
+        permuted = [
+            original[index - 1]
+            for index in permutation
+        ]
+
+        inverse = inverse_permutation(permutation)
+
+        restored = [
+            permuted[index - 1]
+            for index in inverse
+        ]
+
+        assert restored == original
