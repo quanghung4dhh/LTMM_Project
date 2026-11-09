@@ -26,4 +26,35 @@
 ====================================================================================================
 
 ## Mật mã chuyển vị hàng rào (Rail Fence Cipher)
-- 
+
+- Mật mã hàng rào là mật mã chuyển vị cổ điển đơn giản, có khóa là một số nguyên k, được gọi là độ sâu (depth)
+- Các bước thực hiện mã hóa hàng rào với độ sâu k:
+  - B1: Từ bản rõ, bỏ hết khoảng trắng và dấu câu (nếu cần)
+  - B2: Viết các ký tự của bản rõ lần lượt từ trái sang phải theo đường zigzag, tổng cộng có k hàng:
+    - Đi xuống từng hàng cho đến khi chạm hàng k
+    - Sau đó đổi hướng đi ngược lên đến khi chạm hàng đầu tiên
+    - Lặp lại quy trình cho đến khi hết chuỗi văn bản
+  - B3: Đọc lần lượt các ký tự từ trái qua phải theo từng hàng ngang từ hàng 1 đến hàng k, ghép lại thành bản mã
+- VD mã hóa với P = WELCOME TO THE WORLD với k = 4:
+  - Xóa khoảng trắng: WELCOMETOTHEWORLD
+  - h1:W.....E.....W
+  - h2:.E...M.T...E.O
+  - h3:..L.O...O.H...R.D
+  - h4:...C.....T.....L
+  - C = WEWEMTEOLOOHRDCTL
+- Các bước thực hiện giải mã hàng rào với độ sâu k:
+  - B1: Tạo một bảng có lưới trống k hàng và số cột bằng độ dài bản mã C
+  - B2: Đánh dấu đường zigzag (vị trí mà các chữ cái sẽ xuất hiện)
+  - B3: Điền lần lượt các ký tự của bản mã vào các vị trí đã đánh dấu theo từng hàng ngang từ trên xuống dưới
+  - B4: Đọc các ký tự theo đường zigzag từ trái sang phải để khôi phục bản rõ
+- VD giải mã với C = WEWEMTEOLOOHRDCTL, k = 4
+  - h1:W.....E.....W
+  - h2:.E...M.T...E.O
+  - h3:..L.O...O.H...R.D
+  - h4:...C.....T.....L
+  - P: WELCOMETOTHEWORLD
+- Lưu đồ thuật toán mã hóa: <br>
+  ![Rail Fence Encryption](../assets/rail_fence_encrypt.png)
+  <br>
+- Lưu đồ thuật toán giải mã: <br>
+  ![Rail Fence Decryption](../assets/rail_fence_decrypt.png)
