@@ -145,3 +145,9 @@
 - Hàm này dùng để kiểm tra tính hợp lệ của 1 phép chuyển vị. 1 phép chuyển vị chỉ hợp lệ khi nó có đầy đủ các phần tử từ 1 đến n, mỗi phần tử chỉ xuất hiện 1 lần, với n là độ dài của biểu diễn dãy số của phép hoán vị
 - Lưu đồ thuật toán: <br>
   ![Permutation validate](../assets/permutation_validate.png)
+
+### 2. Hàm inverse_permutation():
+
+- Hàm này dùng để tìm nghịch đảo của một phép hoán vị đầu vào, dùng để giải mã cho mật mã chuyển vị
+- Lưu đồ thuật toán: <br>
+  ![Permutation inverse](../assets/permutation_inverse.png)

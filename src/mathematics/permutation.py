@@ -68,3 +68,43 @@ def validate_permutation(permutation: Sequence[int]) -> int:
 
     # Step 5: If valid, return the size of permutation
     return n
+
+
+def inverse_permutation(permutation: Sequence[int]) -> list[int]:
+    """Calculate the inverse of a valid permutation.
+
+    The inverse permutation reverses the positional mapping of the
+    original permutation.
+
+    If the original permutation is P, the inverse Q satisfies:
+        Q[P[i] - 1] = i + 1
+
+    Args:
+        permutation: Valid permutation of integers from 1 to n.
+
+    Returns:
+        A list representing the inverse permutation.
+
+    Raises:
+        TypeError: If the input or its elements have invalid types.
+        ValueError: If the input is not a valid permutation.
+
+    Examples:
+        >>> inverse_permutation([3, 1, 4, 2])
+        [2, 4, 1, 3]
+
+        >>> inverse_permutation([1, 2, 3])
+        [1, 2, 3]
+    """
+    # Step 1: Validate the input permutation.
+    n = validate_permutation(permutation)
+
+    # Step 2: Initialize the inverse permutation.
+    inverse = [0] * n
+
+    # Step 3: Reverse the positional mapping.
+    for position, value in enumerate(permutation, start=1):
+        inverse[value - 1] = position
+
+    # Step 4: Return the inverse permutation.
+    return inverse
