@@ -3,6 +3,10 @@
 
 from __future__ import annotations
 
+from collections.abc import Sequence
+
+from src.mathematics.permutation import validate_permutation
+
 
 def _validate_text(text: str, name: str) -> None:
     """Validate that the input text is a string.
@@ -193,3 +197,62 @@ def rail_fence_decrypt(ciphertext: str, rails: int) -> str:
 
     # Step 7: Join recovered characters.
     return "".join(plaintext_chars)
+
+
+def columnar_encrypt(
+    plaintext: str,
+    key: Sequence[int],
+) -> str:
+    """Encrypt plaintext using Columnar Transposition.
+
+    The plaintext is distributed across columns by writing characters
+    row by row. Columns are then concatenated in the order specified
+    by the permutation key.
+
+    No padding is used. Incomplete final rows are handled naturally.
+    All characters, including spaces, punctuation, digits, and Unicode,
+    are preserved.
+
+    Args:
+        plaintext: Text to encrypt.
+        key: Valid permutation describing the order in which columns
+            are read. The key uses 1-based column numbering.
+
+    Returns:
+        Encrypted ciphertext.
+
+    Raises:
+        TypeError: If plaintext or key contains invalid types.
+        ValueError: If key is not a valid permutation.
+
+    Examples:
+        >>> columnar_encrypt("ATTACKATDAWN", [3, 1, 4, 2])
+        'TAWACDATNTKA'
+
+        >>> columnar_encrypt("CRYPTOGRAPHY", [2, 4, 1, 3])
+        'ROPPRYCTAYGH'
+    """
+    # Step 1: Validate inputs.
+    _validate_text(plaintext, "plaintext")
+
+    # Validate the permutation and obtain the number of columns.
+    column_count = validate_permutation(key)
+
+    # Step 2: Handle empty plaintext.
+    if not plaintext:
+        return ""
+
+    # Step 3: Extract each original column.
+    columns = [
+        plaintext[column_index::column_count]
+        for column_index in range(column_count)
+    ]
+
+    # Step 4: Read columns in the order specified by the key.
+    ciphertext_parts = [
+        columns[column_number - 1]
+        for column_number in key
+    ]
+
+    # Step 5: Concatenate column contents.
+    return "".join(ciphertext_parts)

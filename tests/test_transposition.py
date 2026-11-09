@@ -6,6 +6,7 @@ import pytest
 from src.classical.transposition import (
     rail_fence_encrypt,
     rail_fence_decrypt,
+    columnar_encrypt,
 )
 
 
@@ -154,3 +155,98 @@ class TestRailFenceRoundTrip:
         recovered = rail_fence_decrypt(ciphertext, rails)
 
         assert recovered == plaintext
+
+
+class TestColumnarEncrypt:
+
+    @pytest.mark.parametrize(
+        ("plaintext", "key", "expected"),
+        [
+            (
+                "ATTACKATDAWN",
+                [3, 1, 4, 2],
+                "TAWACDATNTKA",
+            ),
+            (
+                "HELLOWORLD",
+                [3, 1, 4, 2],
+                "LOHOLLREWD",
+            ),
+            (
+                "CRYPTOGRAPHY",
+                [2, 4, 1, 3],
+                "ROPPRYCTAYGH",
+            ),
+            (
+                "WELCOMETOTHEWORLD",
+                [3, 2, 6, 1, 5, 4],
+                "LORETOMEWEWOHDCTL",
+            ),
+            (
+                "ABCDEFGH",
+                [1, 2, 3, 4],
+                "AEBFCGDH",
+            ),
+            (
+                "ABC",
+                [2, 4, 1, 3],
+                "BAC",
+            ),
+            (
+                "",
+                [3, 1, 4, 2],
+                "",
+            ),
+            (
+                "A",
+                [1],
+                "A",
+            ),
+            (
+                "A,éB!",
+                [2, 1],
+                ",BAé!",
+            ),
+        ],
+    )
+    def test_encrypt_known_cases(self, plaintext, key, expected):
+        assert columnar_encrypt(plaintext, key) == expected
+
+    @pytest.mark.parametrize(
+        "key",
+        [
+            [],
+            [1, 1],
+            [0, 1],
+            [1, 3],
+        ],
+    )
+    def test_rejects_invalid_permutations(self, key):
+        with pytest.raises(ValueError):
+            columnar_encrypt("ATTACKATDAWN", key)
+
+    @pytest.mark.parametrize(
+        "key",
+        [
+            None,
+            123,
+            "123",
+            [True, 2],
+            [1, 2.5],
+        ],
+    )
+    def test_rejects_invalid_key_types(self, key):
+        with pytest.raises(TypeError):
+            columnar_encrypt("ATTACKATDAWN", key)
+
+    @pytest.mark.parametrize(
+        "plaintext",
+        [
+            None,
+            123,
+            b"ATTACKATDAWN",
+        ],
+    )
+    def test_rejects_non_string_plaintext(self, plaintext):
+        with pytest.raises(TypeError):
+            columnar_encrypt(plaintext, [3, 1, 4, 2])

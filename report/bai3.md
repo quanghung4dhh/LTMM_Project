@@ -96,3 +96,8 @@
     - h2: E T O T H E
     - h3: W O R L D X
   - P = WELCOMETOTHEWORLDX
+- Lưu đồ thuật toán mã hóa: <br>
+  ![Columnar Encryption](../assets/columnar_encrypt.png)
+  <br>
+- Lưu đồ thuật toán giải mã: <br>
+  ![Columnar Decryption](../assets/columnar_decrypt.png)
