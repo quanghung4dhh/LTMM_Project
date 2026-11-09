@@ -11,10 +11,19 @@
 - Phép hoán vị: Là phép sắp xếp lại thứ tự các vị trí các phần tử của một tập hợp.
 - Phép hoán vị $\pi$ là một ánh xạ song ánh, là mô hình toán học định nghĩa mật mã chuyển vị khối độ dài t
 - Phép hoán vị nghịch đảo (Inverse Permutation): Đây là phép giải mã $\pi^{-1}$ tương ứng với phép hoán vị $\pi$ sao cho $\pi^{-1}$ $\pi$ = I
-- Nhóm hoán vị: Là nhóm tập hợp tất cả các hoán vị t phần tử, có tổng cộng t! phép hoán vị. Khi thực hiện mã hóa chuyển vị nhiều lần liên tiếp, kết quả vẫn sẽ tương đương với thực hiện 1 lần hoán vị duy nhất với t = lcm(t1,t2,t3,...): Bội chung nhơ nhất
+- Nhóm hoán vị: Là nhóm tập hợp tất cả các hoán vị t phần tử, có tổng cộng t! phép hoán vị. Khi thực hiện mã hóa chuyển vị nhiều lần liên tiếp, kết quả vẫn sẽ tương đương với thực hiện 1 lần hoán vị duy nhất với t = lcm(t1,t2,t3,...): Bội chung nhỏ nhất
+- Phép hoán vị có thể được biểu diễn bằng dãy số: P = [3,2,1,5,4]
+- Quy ước: \(Y*i=X*{P_i}\)
+- Điều kiện hợp lệ của 1 phép hoán vị: Mỗi phép hoán vị phải có đầy đủ các phần tử từ 1 đến n, mỗi phần tử chỉ xuất hiện 1 lần
+- Hoán vị đơn vị (identity permutation): VD P = [1,2,3,4]
 
 ## 2. Đại số tuyến tính và ma trận hoán vị (Permutation Matrices)
 
 - Ma trận hoán vị: Khóa chuyển vị kích thước m được biểu diễn thành ma trận vuông khóa K kích thước mxm, trong đó mỗi hàng và mỗi cột có duy nhất 1 giá trị 1, còn lại là giá trị 0
 - Mã hóa bằng phép nhân ma trận: C = PK
 - Tính chất chuyển vị ma trận ($K^{-1} = K^T$): Để giải mã, ta nhân bản mã với ma trận nghịch đảo của khóa: P = $K^{-1}$ C = $K^T$ C
+
+====================================================================================================
+
+## Mật mã chuyển vị hàng rào (Rail Fence Cipher)
+- 
