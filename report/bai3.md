@@ -61,7 +61,7 @@
 
 ====================================================================================================
 
-## Mật mã chuyển vị cột
+## Mật mã chuyển vị cột (Columnar Transposition Cipher)
 
 - Mật mã chuyển vị cột là mật mã chuyển vị có khóa hoán vị là biểu diễn dãy số cho phép hoán vị
 - Mật mã chuyển vị cột có thể có khóa hoặc không khóa
@@ -101,3 +101,17 @@
   <br>
 - Lưu đồ thuật toán giải mã: <br>
   ![Columnar Decryption](../assets/columnar_decrypt.png)
+
+======================================================================================================
+
+## Mậtmã chuyển vị kép (Double Transposition Cipher):
+
+- Mật mã chuyển vị kép là loại mật mã chuyển vị nâng cao, trong đó thuật toán mật mã chuyển vị (thường là chuyển vị cột có khóa) được áp dụng 2 lần liên tiếp trên cùng một bản rõ
+- Theo đó từ bản rõ P và 2 khóa K1, K2. Ta lần lượt:
+  - Sử dụng thuật toán chuyển vị cột cho bản rõ P và khóa chuyển vị K1, ta được P1
+  - Sử dụng tiếp thuật toán chuyển vị cột cho bản P1 và khóa chuyển vị K2, ta được bản mã C
+- Lưu đồ thuật toán mã hóa: <br>
+  ![Double Encryption](../assets/double_encrypt.png)
+  <br>
+- Lưu đồ thuật toán giải mã: <br>
+  ![Double Decryption](../assets/double_decrypt.png)
