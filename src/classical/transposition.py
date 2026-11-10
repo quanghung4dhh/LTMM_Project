@@ -342,3 +342,45 @@ def columnar_decrypt(
 
     # Step 7: Join recovered characters.
     return "".join(plaintext_chars)
+
+
+def double_columnar_encrypt(
+    plaintext: str,
+    key1: Sequence[int],
+    key2: Sequence[int],
+) -> str:
+    """Encrypt plaintext using Double Columnar Transposition.
+
+    The Columnar Transposition cipher is applied twice:
+    first with key1, then with key2.
+
+    No padding is used. All input characters are preserved.
+
+    Args:
+        plaintext: Text to encrypt.
+        key1: First valid columnar permutation key.
+        key2: Second valid columnar permutation key.
+
+    Returns:
+        Encrypted ciphertext.
+
+    Raises:
+        TypeError: If plaintext or either key has invalid types.
+        ValueError: If either key is not a valid permutation.
+
+    Examples:
+        >>> double_columnar_encrypt(
+        ...     "ATTACKATDAWN",
+        ...     [3, 1, 4, 2],
+        ...     [2, 3, 1],
+        ... )
+        'ACTKWDNATAAT'
+    """
+    # Step 1: Apply the first Columnar Transposition.
+    intermediate = columnar_encrypt(plaintext, key1)
+
+    # Step 2: Apply the second Columnar Transposition.
+    ciphertext = columnar_encrypt(intermediate, key2)
+
+    # Step 3: Return the final ciphertext.
+    return ciphertext
