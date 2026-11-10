@@ -8,6 +8,7 @@ from src.classical.transposition import (
     rail_fence_decrypt,
     columnar_encrypt,
     columnar_decrypt,
+    double_columnar_encrypt,
 )
 
 
@@ -373,3 +374,128 @@ class TestColumnarRoundTrip:
         recovered = columnar_decrypt(ciphertext, key)
 
         assert recovered == plaintext
+
+
+class TestDoubleColumnarEncrypt:
+
+    @pytest.mark.parametrize(
+        ("plaintext", "key1", "key2", "expected"),
+        [
+            (
+                "ATTACKATDAWN",
+                [3, 1, 4, 2],
+                [2, 3, 1],
+                "ACTKWDNATAAT",
+            ),
+            (
+                "CRYPTOGRAPHY",
+                [1],
+                [1],
+                "CRYPTOGRAPHY",
+            ),
+            (
+                "",
+                [3, 1, 4, 2],
+                [2, 3, 1],
+                "",
+            ),
+        ],
+    )
+    def test_encrypt_known_cases(
+        self,
+        plaintext,
+        key1,
+        key2,
+        expected,
+    ):
+        assert double_columnar_encrypt(
+            plaintext,
+            key1,
+            key2,
+        ) == expected
+
+    @pytest.mark.parametrize(
+        "key1",
+        [
+            [],
+            [1, 1],
+            [0, 1],
+            [1, 3],
+        ],
+    )
+    def test_rejects_invalid_first_key(self, key1):
+        with pytest.raises(ValueError):
+            double_columnar_encrypt(
+                "ATTACKATDAWN",
+                key1,
+                [2, 3, 1],
+            )
+
+    @pytest.mark.parametrize(
+        "key2",
+        [
+            [],
+            [1, 1],
+            [0, 1],
+            [1, 3],
+        ],
+    )
+    def test_rejects_invalid_second_key(self, key2):
+        with pytest.raises(ValueError):
+            double_columnar_encrypt(
+                "ATTACKATDAWN",
+                [3, 1, 4, 2],
+                key2,
+            )
+
+    @pytest.mark.parametrize(
+        "key",
+        [
+            None,
+            123,
+            "123",
+            [True, 2],
+            [1, 2.5],
+        ],
+    )
+    def test_rejects_invalid_first_key_types(self, key):
+        with pytest.raises(TypeError):
+            double_columnar_encrypt(
+                "ATTACKATDAWN",
+                key,
+                [2, 3, 1],
+            )
+
+    @pytest.mark.parametrize(
+        "key",
+        [
+            None,
+            123,
+            "123",
+            [True, 2],
+            [1, 2.5],
+        ],
+    )
+    def test_rejects_invalid_second_key_types(self, key):
+        with pytest.raises(TypeError):
+            double_columnar_encrypt(
+                "ATTACKATDAWN",
+                [3, 1, 4, 2],
+                key,
+            )
+
+    @pytest.mark.parametrize(
+        "plaintext",
+        [
+            None,
+            123,
+            b"ATTACKATDAWN",
+        ],
+    )
+    def test_rejects_non_string_plaintext(self, plaintext):
+        with pytest.raises(TypeError):
+            double_columnar_encrypt(
+                plaintext,
+                [3, 1, 4, 2],
+                [2, 3, 1],
+            )

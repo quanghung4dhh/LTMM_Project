@@ -104,12 +104,13 @@
 
 ======================================================================================================
 
-## Mậtmã chuyển vị kép (Double Transposition Cipher):
+## Mật mã chuyển vị kép (Double Transposition Cipher):
 
 - Mật mã chuyển vị kép là loại mật mã chuyển vị nâng cao, trong đó thuật toán mật mã chuyển vị (thường là chuyển vị cột có khóa) được áp dụng 2 lần liên tiếp trên cùng một bản rõ
 - Theo đó từ bản rõ P và 2 khóa K1, K2. Ta lần lượt:
   - Sử dụng thuật toán chuyển vị cột cho bản rõ P và khóa chuyển vị K1, ta được P1
   - Sử dụng tiếp thuật toán chuyển vị cột cho bản P1 và khóa chuyển vị K2, ta được bản mã C
+- Về phần giải mã, ta làm ngược lại khi giải mã sử dụng khóa K2 trước rồi mới dùng khóa K1
 - Lưu đồ thuật toán mã hóa: <br>
   ![Double Encryption](../assets/double_encrypt.png)
   <br>
