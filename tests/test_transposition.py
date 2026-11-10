@@ -9,6 +9,7 @@ from src.classical.transposition import (
     columnar_encrypt,
     columnar_decrypt,
     double_columnar_encrypt,
+    double_columnar_decrypt,
 )
 
 
@@ -499,3 +500,151 @@ class TestDoubleColumnarEncrypt:
                 [3, 1, 4, 2],
                 [2, 3, 1],
             )
+
+
+class TestDoubleColumnarDecrypt:
+
+    @pytest.mark.parametrize(
+        ("ciphertext", "key1", "key2", "expected"),
+        [
+            (
+                "ACTKWDNATAAT",
+                [3, 1, 4, 2],
+                [2, 3, 1],
+                "ATTACKATDAWN",
+            ),
+            (
+                "GTROHAYPYCPR",
+                [3, 1, 4, 2],
+                [2, 3, 1],
+                "CRYPTOGRAPHY",
+            ),
+            (
+                "OTEWDLROWOCLEMEHT",
+                [3, 2, 6, 1, 5, 4],
+                [2, 3, 1],
+                "WELCOMETOTHEWORLD",
+            ),
+            (
+                "",
+                [3, 1, 4, 2],
+                [2, 3, 1],
+                "",
+            ),
+        ],
+    )
+    def test_decrypt_known_cases(
+        self,
+        ciphertext,
+        key1,
+        key2,
+        expected,
+    ):
+        assert double_columnar_decrypt(
+            ciphertext,
+            key1,
+            key2,
+        ) == expected
+
+    @pytest.mark.parametrize(
+        "key1",
+        [
+            [],
+            [1, 1],
+            [0, 1],
+            [1, 3],
+        ],
+    )
+    def test_rejects_invalid_first_key(self, key1):
+        with pytest.raises(ValueError):
+            double_columnar_decrypt(
+                "ACTKWDNATAAT",
+                key1,
+                [2, 3, 1],
+            )
+
+    @pytest.mark.parametrize(
+        "key2",
+        [
+            [],
+            [1, 1],
+            [0, 1],
+            [1, 3],
+        ],
+    )
+    def test_rejects_invalid_second_key(self, key2):
+        with pytest.raises(ValueError):
+            double_columnar_decrypt(
+                "ACTKWDNATAAT",
+                [3, 1, 4, 2],
+                key2,
+            )
+
+    @pytest.mark.parametrize(
+        "ciphertext",
+        [
+            None,
+            123,
+            b"ACTKWDNATAAT",
+        ],
+    )
+    def test_rejects_non_string_ciphertext(self, ciphertext):
+        with pytest.raises(TypeError):
+            double_columnar_decrypt(
+                ciphertext,
+                [3, 1, 4, 2],
+                [2, 3, 1],
+            )
+
+
+class TestDoubleColumnarRoundTrip:
+
+    @pytest.mark.parametrize(
+        ("plaintext", "key1", "key2"),
+        [
+            (
+                "ATTACKATDAWN",
+                [3, 1, 4, 2],
+                [2, 3, 1],
+            ),
+            (
+                "CRYPTOGRAPHY",
+                [3, 1, 4, 2],
+                [2, 3, 1],
+            ),
+            (
+                "WELCOMETOTHEWORLD",
+                [3, 2, 6, 1, 5, 4],
+                [2, 3, 1],
+            ),
+            (
+                "",
+                [3, 1, 4, 2],
+                [2, 3, 1],
+            ),
+            (
+                "A,éB!",
+                [2, 1],
+                [3, 1, 2],
+            ),
+        ],
+    )
+    def test_decrypt_after_encrypt_restores_original(
+        self,
+        plaintext,
+        key1,
+        key2,
+    ):
+        ciphertext = double_columnar_encrypt(
+            plaintext,
+            key1,
+            key2,
+        )
+
+        recovered = double_columnar_decrypt(
+            ciphertext,
+            key1,
+            key2,
+        )
+
+        assert recovered == plaintext
