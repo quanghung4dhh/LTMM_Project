@@ -384,3 +384,45 @@ def double_columnar_encrypt(
 
     # Step 3: Return the final ciphertext.
     return ciphertext
+
+
+def double_columnar_decrypt(
+    ciphertext: str,
+    key1: Sequence[int],
+    key2: Sequence[int],
+) -> str:
+    """Decrypt ciphertext using Double Columnar Transposition.
+
+    The Columnar Transposition cipher is applied twice in
+    reverse order: first with key2, then with key1.
+
+    No padding is assumed. All input characters are preserved.
+
+    Args:
+        ciphertext: Text to decrypt.
+        key1: First permutation key used during encryption.
+        key2: Second permutation key used during encryption.
+
+    Returns:
+        Recovered plaintext.
+
+    Raises:
+        TypeError: If ciphertext or either key has invalid types.
+        ValueError: If either key is not a valid permutation.
+
+    Examples:
+        >>> double_columnar_decrypt(
+        ...     "ACTKWDNATAAT",
+        ...     [3, 1, 4, 2],
+        ...     [2, 3, 1],
+        ... )
+        'ATTACKATDAWN'
+    """
+    # Step 1: Reverse the second encryption.
+    intermediate = columnar_decrypt(ciphertext, key2)
+
+    # Step 2: Reverse the first encryption.
+    plaintext = columnar_decrypt(intermediate, key1)
+
+    # Step 3: Return the recovered plaintext.
+    return plaintext
