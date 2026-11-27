@@ -4,10 +4,10 @@ from collections import Counter
 
 def _extract_valid_letters(text: str) -> str:
     """
-    Extract valid English letters (A-Z) from input text.
+    Extract valid English ASCII letters (A-Z) from input text.
 
     The function ignores spaces, punctuation, digits,
-    and characters outside the English alphabet.
+    and all non-ASCII alphabetic characters.
     """
     if not isinstance(text, str):
         raise TypeError("text must be a string")
@@ -15,7 +15,7 @@ def _extract_valid_letters(text: str) -> str:
     return "".join(
         char.upper()
         for char in text
-        if "A" <= char.upper() <= "Z"
+        if ("A" <= char <= "Z") or ("a" <= char <= "z")
     )
 
 
