@@ -58,7 +58,7 @@ P(c)=\frac{f(c)}{N}
 - Vì chúng ta chỉ mã hóa các ký tự trong bảng chữ cái tiếng Anh nên không gian khóa có 26 phần tử thuộc Z_26
 - Với tấn công brute force, ta sẽ thử lần lượt các khóa trong Z_26 rồi từ đó đánh giá để tìm ra khóa đúng cũng như là bản rõ
 - Lưu đồ thuật toán: <br>
-  ![Brute Force Attack](../assets/brute_force.png)
+  ![Brute Force Attack](../assets/brute_force.png) <br>
 - Đánh giá độ phức tạp thuật toán:
   - Độ phức tạp thời gian: O(NL)
   - Độ phức tạp không gian: O(NL)
@@ -79,3 +79,50 @@ P(c)=\frac{f(c)}{N}
 - Việc tìm GCD không chắc đã là độ dài khóa mà có thể là bội số của độ dài khóa. Vì vậy, Kasiski chỉ đưa ra các ứng cử viên để tiếp tục kiểm tra, không đảm bảo tìm được khóa chính xác ngay lập tức
 
 ### 4.3.1 Thiết kế thuật toán
+
+1. Chuẩn hóa bản mã và tìm các chuỗi ký tự lặp lại
+2. Ghi nhận vị trí xuất hiện của từng chuỗi lặp lại
+3. Tính khoảng cách giữa các lần xuất hiện liên tiếp
+4. Tính GCD của các khoảng cách
+5. Sử dụng GCD tìm được để xếp hạng các độ dài khóa có thể
+
+- Cách tính khoảng cách giữa hai lần xuất hiện:
+
+```math
+d_i=p_{i+1} - p_i
+```
+
+- Trong đó:
+  - p_i là vị trí xuất hiện thứ i của chuỗi lặp lại
+  - d_i là khoảng cách giữa hai lần xuất hiện liên tiếp
+- Sau khi đã có các khoảng cách d_i, ta sẽ tìm GCD:
+
+```math
+g = gcd(d_1, d_2, ..., d_m)
+```
+
+- Từ GCD, ta có thể ước lượng độ dài chuỗi khóa. Mỗi chuỗi lặp lại đóng góp một phiếu cho những độ dài khóa là ước số của GCD tương ứng
+- Điều kiện để độ dài khóa k nhận được một phiếu từ GCD:
+
+```math
+g \bmod k = 0
+```
+
+- Điểm của mỗi ứng viên được tính bằng tổng số phiếu nhận được:
+
+```math
+Score(k)=\sum_{i=1}^{M} I(g_i \bmod k=0)
+```
+
+- Trong đó:
+  - M là số chuỗi lặp lại
+  - g_i là GCD của chuỗi lặp lại thứ i
+  - I là hàm chỉ thị:
+    - I = 1 nếu $g_i ≡ 0 \bmod k$
+    - I = 0 nếu $g_i ≡ 0 \bmod k$
+
+- Các ứng viên sẽ được sắp xếp theo thứ tự:
+  - Điểm giảm dần
+  - Nếu bằng điểm, sẽ sắp xếp theo thứ tự độ dài khóa tăng dần
+- Lưu đồ thuật toán: <br>
+  ![Kasiski](../assets/kasiski.png)
