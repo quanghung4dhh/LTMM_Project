@@ -1,13 +1,10 @@
 
-from src.cryptanalysis.brute_force import brute_force_affine
 from src.classical.substitution import affine_encrypt
 from src.cryptanalysis.brute_force import (
     brute_force_caesar,
     brute_force_affine,
 )
 import pytest
-
-from src.cryptanalysis.brute_force import brute_force_caesar
 
 
 def test_brute_force_returns_26_candidates():

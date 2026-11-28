@@ -6,7 +6,6 @@ from src.classical.substitution import (
     affine_decrypt,
 )
 from src.mathematics.modular import gcd
-from src.classical.substitution import shift_decrypt
 
 
 def brute_force_caesar(ciphertext: str) -> list[tuple[int, str]]:

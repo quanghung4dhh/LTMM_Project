@@ -153,7 +153,7 @@ Score(k)=\sum_{i=1}^{M} I(g_i \bmod k=0)
   - g_i là GCD của chuỗi lặp lại thứ i
   - I là hàm chỉ thị:
     - I = 1 nếu $g_i ≡ 0 \bmod k$
-    - I = 0 nếu $g_i ≡ 0 \bmod k$
+    - I = 0 nếu $g_i ≢ 0 \bmod k$
 
 - Các ứng viên sẽ được sắp xếp theo thứ tự:
   - Điểm giảm dần
