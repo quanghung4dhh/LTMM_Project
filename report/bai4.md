@@ -65,3 +65,17 @@ P(c)=\frac{f(c)}{N}
 - Trong đó:
   - N là số lượng các phần tử trong không gian khóa
   - L là độ dài các ký tự bản mã
+
+## 4.3. Kasiski Examination (Nhận diện mẫu):
+
+- Kasiski Examination là phương pháp phân tích mật mã Vigenere bằng cách tìm kiếm những chuỗi ký tự lặp lại trong bản mã
+- Ý tưởng chính:
+  - Tìm các chuỗi ký tự giống nhau xuất hiện nhiều lần trong bản mã
+  - Xác định vị trí xuất hiện của những chuỗi đó
+  - Tính khoảng cách giữa các lần xuất hiện
+  - Phân tích ước chung lớn nhất (GCD) của những khoảng cách
+  - Dựa vào đó đưa ra các ứng viên về độ dài khóa Vigenere
+- Lý do phương pháp này có hiệu quả là: nếu cùng một chuỗi bản rõ được mã hóa bằng một đoạn khóa, nó có thể tạo ra chuỗi bản mã giống nhau khi vị trí bắt đầu có cùng pha khóa
+- Việc tìm GCD không chắc đã là độ dài khóa mà có thể là bội số của độ dài khóa. Vì vậy, Kaisiki chỉ đưa ra các ứng cử viên để tiếp tục kiểm tra, không đảm bảo tìm được khóa chính xác ngay lập tức
+
+### 4.3.1 Thiết kế thuật toán
