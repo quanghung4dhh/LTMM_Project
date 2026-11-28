@@ -9,6 +9,7 @@ from src.modern.des import (
     left_circular_shift,
     permuted_choice_2,
     generate_round_keys,
+    expand_right_half
 )
 
 
@@ -134,3 +135,28 @@ def test_generate_round_keys_known_vectors():
 def test_generate_round_keys_invalid_key():
     with pytest.raises(ValueError):
         generate_round_keys(1 << 64)
+
+
+def test_expansion_e_known_vector():
+    right = 0xF0AAF0AA
+
+    expected = 0x7A15557A1555
+
+    assert expand_right_half(right) == expected
+
+
+def test_expansion_e_output_width():
+    right = 0x12345678
+
+    result = expand_right_half(right)
+
+    assert 0 <= result < (1 << 48)
+
+
+def test_expansion_e_zero():
+    assert expand_right_half(0) == 0
+
+
+def test_expansion_e_invalid_input():
+    with pytest.raises(ValueError):
+        expand_right_half(1 << 32)
