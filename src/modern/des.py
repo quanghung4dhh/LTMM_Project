@@ -374,3 +374,99 @@ def feistel_function(right: int, round_key: int) -> int:
 
     # Step 4: Apply P permutation.
     return permutation_p(substituted)
+
+
+def encrypt_block(plaintext: int, key: int) -> int:
+    """
+    Encrypt one 64-bit plaintext block using DES.
+
+    Args:
+        plaintext: 64-bit plaintext block.
+        key: 64-bit DES key.
+
+    Returns:
+        64-bit ciphertext block.
+    """
+    if not isinstance(plaintext, int) or isinstance(plaintext, bool):
+        raise TypeError("plaintext must be an integer")
+
+    if not isinstance(key, int) or isinstance(key, bool):
+        raise TypeError("key must be an integer")
+
+    if not 0 <= plaintext < (1 << 64):
+        raise ValueError("plaintext must fit in 64 bits")
+
+    if not 0 <= key < (1 << 64):
+        raise ValueError("key must fit in 64 bits")
+
+    # Step 1: Generate sixteen round keys.
+    round_keys = generate_round_keys(key)
+
+    # Step 2: Apply Initial Permutation.
+    permuted = initial_permutation(plaintext)
+
+    # Step 3: Split into two 32-bit halves.
+    left = permuted >> 32
+    right = permuted & 0xFFFFFFFF
+
+    # Step 4: Perform sixteen Feistel rounds.
+    for round_key in round_keys:
+        new_left = right
+        new_right = left ^ feistel_function(right, round_key)
+
+        left = new_left
+        right = new_right
+
+    # Step 5: Swap the two halves.
+    combined = (right << 32) | left
+
+    # Step 6: Apply Final Permutation.
+    return final_permutation(combined)
+
+
+def decrypt_block(ciphertext: int, key: int) -> int:
+    """
+    Decrypt one 64-bit ciphertext block using DES.
+
+    Args:
+        ciphertext: 64-bit ciphertext block.
+        key: 64-bit DES key.
+
+    Returns:
+        64-bit plaintext block.
+    """
+    if not isinstance(ciphertext, int) or isinstance(ciphertext, bool):
+        raise TypeError("ciphertext must be an integer")
+
+    if not isinstance(key, int) or isinstance(key, bool):
+        raise TypeError("key must be an integer")
+
+    if not 0 <= ciphertext < (1 << 64):
+        raise ValueError("ciphertext must fit in 64 bits")
+
+    if not 0 <= key < (1 << 64):
+        raise ValueError("key must fit in 64 bits")
+
+    # Generate round keys and reverse their order.
+    round_keys = generate_round_keys(key)[::-1]
+
+    # Apply Initial Permutation.
+    permuted = initial_permutation(ciphertext)
+
+    # Split into two 32-bit halves.
+    left = permuted >> 32
+    right = permuted & 0xFFFFFFFF
+
+    # Perform sixteen Feistel rounds using reversed keys.
+    for round_key in round_keys:
+        new_left = right
+        new_right = left ^ feistel_function(right, round_key)
+
+        left = new_left
+        right = new_right
+
+    # Swap the two halves.
+    combined = (right << 32) | left
+
+    # Apply Final Permutation.
+    return final_permutation(combined)

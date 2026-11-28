@@ -13,6 +13,8 @@ from src.modern.des import (
     substitute,
     permutation_p,
     feistel_function,
+    encrypt_block,
+    decrypt_block,
 )
 
 
@@ -228,3 +230,46 @@ def test_feistel_function_invalid_right():
 def test_feistel_function_invalid_round_key():
     with pytest.raises(ValueError):
         feistel_function(0xF0AAF0AA, 1 << 48)
+
+
+def test_encrypt_block_known_vector():
+    key = 0x133457799BBCDFF1
+    plaintext = 0x0123456789ABCDEF
+
+    expected = 0x85E813540F0AB405
+
+    assert encrypt_block(plaintext, key) == expected
+
+
+def test_decrypt_block_known_vector():
+    key = 0x133457799BBCDFF1
+    ciphertext = 0x85E813540F0AB405
+
+    expected = 0x0123456789ABCDEF
+
+    assert decrypt_block(ciphertext, key) == expected
+
+
+def test_des_encrypt_decrypt_roundtrip():
+    key = 0x133457799BBCDFF1
+    plaintext = 0x0123456789ABCDEF
+
+    ciphertext = encrypt_block(plaintext, key)
+    decrypted = decrypt_block(ciphertext, key)
+
+    assert decrypted == plaintext
+
+
+def test_encrypt_block_invalid_plaintext():
+    with pytest.raises(ValueError):
+        encrypt_block(1 << 64, 0x133457799BBCDFF1)
+
+
+def test_encrypt_block_invalid_key():
+    with pytest.raises(ValueError):
+        encrypt_block(0x0123456789ABCDEF, 1 << 64)
+
+
+def test_decrypt_block_invalid_ciphertext():
+    with pytest.raises(ValueError):
+        decrypt_block(1 << 64, 0x133457799BBCDFF1)
