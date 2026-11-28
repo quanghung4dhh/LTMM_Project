@@ -1,6 +1,7 @@
 
 """Kasiski examination utilities for classical cryptanalysis."""
 
+from src.mathematics.modular import gcd
 from collections import defaultdict
 
 
@@ -116,3 +117,49 @@ def calculate_ngram_distances(
         ]
 
     return distances
+
+
+def calculate_ngram_gcds(
+    ngram_distances: dict[str, list[int]]
+) -> dict[str, int]:
+    """
+    Calculate the GCD of distances for each repeated n-gram.
+
+    Args:
+        ngram_distances: Dictionary mapping n-grams to their
+            consecutive occurrence distances.
+
+    Returns:
+        Dictionary mapping each n-gram to its GCD.
+    """
+    if not isinstance(ngram_distances, dict):
+        raise TypeError("ngram_distances must be a dictionary")
+
+    gcd_results = {}
+
+    for ngram, distances in ngram_distances.items():
+        if not isinstance(ngram, str):
+            raise TypeError("n-gram keys must be strings")
+
+        if not isinstance(distances, list):
+            raise TypeError("distances must be lists")
+
+        if not distances:
+            raise ValueError("each n-gram must have at least one distance")
+
+        for distance in distances:
+            if isinstance(distance, bool) or not isinstance(distance, int):
+                raise TypeError("distances must contain integers")
+
+            if distance <= 0:
+                raise ValueError("distances must be positive")
+
+        # Calculate the GCD of all distances belonging to this n-gram.
+        result = distances[0]
+
+        for distance in distances[1:]:
+            result = gcd(result, distance)
+
+        gcd_results[ngram] = result
+
+    return gcd_results

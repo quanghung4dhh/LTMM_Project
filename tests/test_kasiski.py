@@ -1,4 +1,5 @@
 
+from src.cryptanalysis.kasiski import calculate_ngram_gcds
 from src.cryptanalysis.kasiski import calculate_ngram_distances
 import pytest
 
@@ -188,3 +189,56 @@ def test_calculate_ngram_distances_invalid_position_values(positions):
 def test_calculate_ngram_distances_invalid_position_types(positions):
     with pytest.raises(TypeError):
         calculate_ngram_distances({"ABC": positions})
+
+
+def test_calculate_ngram_gcds_basic():
+    distances = {
+        "ABC": [12, 24, 36],
+        "XYZ": [15, 30],
+        "DEF": [18, 36],
+    }
+
+    result = calculate_ngram_gcds(distances)
+
+    assert result == {
+        "ABC": 12,
+        "XYZ": 15,
+        "DEF": 18,
+    }
+
+
+def test_calculate_ngram_gcds_single_distance():
+    assert calculate_ngram_gcds({"ABC": [12]}) == {"ABC": 12}
+
+
+def test_calculate_ngram_gcds_empty_input():
+    assert calculate_ngram_gcds({}) == {}
+
+
+@pytest.mark.parametrize("distances", [[], [0], [-2], [4, 0]])
+def test_calculate_ngram_gcds_invalid_values(distances):
+    with pytest.raises(ValueError):
+        calculate_ngram_gcds({"ABC": distances})
+
+
+@pytest.mark.parametrize(
+    "distances",
+    [[4, 2.5], [4, "8"], [4, True]]
+)
+def test_calculate_ngram_gcds_invalid_types(distances):
+    with pytest.raises(TypeError):
+        calculate_ngram_gcds({"ABC": distances})
+
+
+def test_calculate_ngram_gcds_invalid_input():
+    with pytest.raises(TypeError):
+        calculate_ngram_gcds(None)
+
+
+def test_calculate_ngram_gcds_does_not_modify_input():
+    distances = {"ABC": [12, 24, 36]}
+    original = {"ABC": [12, 24, 36]}
+
+    calculate_ngram_gcds(distances)
+
+    assert distances == original
