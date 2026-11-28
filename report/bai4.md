@@ -6,7 +6,7 @@
 - Bằng cách thống kê và sắp xếp các chữ cái theo tần suất xuất hiện, người phân tích mật mã có thể đưa ra những giả thuyết về ánh xạ giữa chữ cái trong bảng mã và chữ cái trong bản rõ
 
 - Trong phạm vi bài tập lớn, thuật toán sẽ tập trung vào việc:
-  - Trích xuất các chữ cái tiếng Anh hợ lệ của từng chữ cái
+  - Trích xuất các chữ cái tiếng Anh hợp lệ của từng chữ cái
   - Đếm số lần xuất hiện của từng chữ cái
   - Tính tần suất tương đối của từng chữ cái
   - Sắp xếp các chữ cái theo tần suất giảm dần
@@ -46,8 +46,8 @@ P(c)=\frac{f(c)}{N}
 
 ### 4.2.1 Xây dựng thuật toán
 
-- Ở trong bài tập lớn này, thuật toán chỉ sủe dụng tấn công brute force để giải mã mật mã dịch, hay mật mã Ceaser
-- Với mật mã Ceasar, công thức mã hóa là
+- Ở trong bài tập lớn này, thuật toán chỉ sử dụng tấn công brute force để giải mã mật mã dịch, hay mật mã Caesar
+- Với mật mã Caesar, công thức mã hóa là
   <p align="center">
     C = (P + K) mod 26
   </p>
@@ -76,6 +76,6 @@ P(c)=\frac{f(c)}{N}
   - Phân tích ước chung lớn nhất (GCD) của những khoảng cách
   - Dựa vào đó đưa ra các ứng viên về độ dài khóa Vigenere
 - Lý do phương pháp này có hiệu quả là: nếu cùng một chuỗi bản rõ được mã hóa bằng một đoạn khóa, nó có thể tạo ra chuỗi bản mã giống nhau khi vị trí bắt đầu có cùng pha khóa
-- Việc tìm GCD không chắc đã là độ dài khóa mà có thể là bội số của độ dài khóa. Vì vậy, Kaisiki chỉ đưa ra các ứng cử viên để tiếp tục kiểm tra, không đảm bảo tìm được khóa chính xác ngay lập tức
+- Việc tìm GCD không chắc đã là độ dài khóa mà có thể là bội số của độ dài khóa. Vì vậy, Kasiski chỉ đưa ra các ứng cử viên để tiếp tục kiểm tra, không đảm bảo tìm được khóa chính xác ngay lập tức
 
 ### 4.3.1 Thiết kế thuật toán
