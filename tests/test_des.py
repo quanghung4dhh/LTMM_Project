@@ -9,7 +9,8 @@ from src.modern.des import (
     left_circular_shift,
     permuted_choice_2,
     generate_round_keys,
-    expand_right_half
+    expand_right_half,
+    substitute
 )
 
 
@@ -160,3 +161,35 @@ def test_expansion_e_zero():
 def test_expansion_e_invalid_input():
     with pytest.raises(ValueError):
         expand_right_half(1 << 32)
+
+
+def test_substitute_known_vector():
+    value = 0x6117BA866527
+
+    expected = 0x5C82B597
+
+    assert substitute(value) == expected
+
+
+def test_substitute_output_width():
+    value = 0x123456789ABC
+
+    result = substitute(value)
+
+    assert 0 <= result < (1 << 32)
+
+
+def test_substitute_zero():
+    result = substitute(0)
+
+    assert 0 <= result < (1 << 32)
+
+
+def test_substitute_invalid_value():
+    with pytest.raises(ValueError):
+        substitute(1 << 48)
+
+
+def test_substitute_negative_value():
+    with pytest.raises(ValueError):
+        substitute(-1)
