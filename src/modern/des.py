@@ -318,3 +318,59 @@ def substitute(value: int) -> int:
         result = (result << 4) | sbox_value
 
     return result
+
+
+# P permutation: 32 bits -> 32 bits.
+P_TABLE = (
+    16, 7, 20, 21,
+    29, 12, 28, 17,
+    1, 15, 23, 26,
+    5, 18, 31, 10,
+    2, 8, 24, 14,
+    32, 27, 3, 9,
+    19, 13, 30, 6,
+    22, 11, 4, 25,
+)
+
+
+def permutation_p(value: int) -> int:
+    """
+    Apply the DES P permutation to a 32-bit value.
+    """
+    return permute(value, P_TABLE, 32)
+
+
+def feistel_function(right: int, round_key: int) -> int:
+    """
+    Apply the DES Feistel function.
+
+    Args:
+        right: 32-bit right half.
+        round_key: 48-bit round key.
+
+    Returns:
+        32-bit Feistel function output.
+    """
+    if not isinstance(right, int) or isinstance(right, bool):
+        raise TypeError("right must be an integer")
+
+    if not isinstance(round_key, int) or isinstance(round_key, bool):
+        raise TypeError("round_key must be an integer")
+
+    if not 0 <= right < (1 << 32):
+        raise ValueError("right must fit in 32 bits")
+
+    if not 0 <= round_key < (1 << 48):
+        raise ValueError("round_key must fit in 48 bits")
+
+    # Step 1: Expand 32 bits to 48 bits.
+    expanded = expand_right_half(right)
+
+    # Step 2: XOR with the 48-bit round key.
+    mixed = expanded ^ round_key
+
+    # Step 3: Apply the eight S-boxes.
+    substituted = substitute(mixed)
+
+    # Step 4: Apply P permutation.
+    return permutation_p(substituted)

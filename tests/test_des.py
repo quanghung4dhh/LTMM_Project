@@ -10,7 +10,9 @@ from src.modern.des import (
     permuted_choice_2,
     generate_round_keys,
     expand_right_half,
-    substitute
+    substitute,
+    permutation_p,
+    feistel_function,
 )
 
 
@@ -193,3 +195,36 @@ def test_substitute_invalid_value():
 def test_substitute_negative_value():
     with pytest.raises(ValueError):
         substitute(-1)
+
+
+def test_permutation_p_known_vector():
+    value = 0x5C82B597
+
+    expected = 0x234AA9BB
+
+    assert permutation_p(value) == expected
+
+
+def test_permutation_p_output_width():
+    result = permutation_p(0x12345678)
+
+    assert 0 <= result < (1 << 32)
+
+
+def test_feistel_function_known_vector():
+    right = 0xF0AAF0AA
+    round_key = 0x1B02EFFC7072
+
+    expected = 0x234AA9BB
+
+    assert feistel_function(right, round_key) == expected
+
+
+def test_feistel_function_invalid_right():
+    with pytest.raises(ValueError):
+        feistel_function(1 << 32, 0x1B02EFFC7072)
+
+
+def test_feistel_function_invalid_round_key():
+    with pytest.raises(ValueError):
+        feistel_function(0xF0AAF0AA, 1 << 48)
