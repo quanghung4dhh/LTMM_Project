@@ -1,4 +1,5 @@
 
+from src.cryptanalysis.kasiski import rank_key_length_candidates
 from src.cryptanalysis.kasiski import calculate_ngram_gcds
 from src.cryptanalysis.kasiski import calculate_ngram_distances
 import pytest
@@ -242,3 +243,95 @@ def test_calculate_ngram_gcds_does_not_modify_input():
     calculate_ngram_gcds(distances)
 
     assert distances == original
+
+
+def test_rank_key_length_candidates_basic():
+    ngram_gcds = {
+        "ABC": 12,
+        "XYZ": 15,
+        "DEF": 18,
+    }
+
+    result = rank_key_length_candidates(
+        ngram_gcds,
+        min_key_length=2,
+        max_key_length=20,
+    )
+
+    assert result[0] == (3, 3)
+    assert result[1] == (2, 2)
+    assert result[2] == (6, 2)
+
+
+def test_rank_key_length_candidates_empty_input():
+    result = rank_key_length_candidates({})
+
+    assert result == [
+        (2, 0),
+        (3, 0),
+        (4, 0),
+        (5, 0),
+        (6, 0),
+        (7, 0),
+        (8, 0),
+        (9, 0),
+        (10, 0),
+        (11, 0),
+        (12, 0),
+        (13, 0),
+        (14, 0),
+        (15, 0),
+        (16, 0),
+        (17, 0),
+        (18, 0),
+        (19, 0),
+        (20, 0),
+    ]
+
+
+def test_rank_key_length_candidates_custom_range():
+    result = rank_key_length_candidates(
+        {"ABC": 12},
+        min_key_length=2,
+        max_key_length=6,
+    )
+
+    assert result == [
+        (2, 1),
+        (3, 1),
+        (4, 1),
+        (6, 1),
+        (5, 0),
+    ]
+
+
+@pytest.mark.parametrize(
+    "value",
+    [0, -1, -5]
+)
+def test_rank_key_length_candidates_invalid_gcd_value(value):
+    with pytest.raises(ValueError):
+        rank_key_length_candidates({"ABC": value})
+
+
+@pytest.mark.parametrize(
+    "value",
+    [2.5, "12", None, True]
+)
+def test_rank_key_length_candidates_invalid_gcd_type(value):
+    with pytest.raises(TypeError):
+        rank_key_length_candidates({"ABC": value})
+
+
+def test_rank_key_length_candidates_invalid_input():
+    with pytest.raises(TypeError):
+        rank_key_length_candidates(None)
+
+
+def test_rank_key_length_candidates_invalid_range():
+    with pytest.raises(ValueError):
+        rank_key_length_candidates(
+            {"ABC": 12},
+            min_key_length=5,
+            max_key_length=2,
+        )

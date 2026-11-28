@@ -163,3 +163,79 @@ def calculate_ngram_gcds(
         gcd_results[ngram] = result
 
     return gcd_results
+
+
+def rank_key_length_candidates(
+    ngram_gcds: dict[str, int],
+    min_key_length: int = 2,
+    max_key_length: int = 20,
+) -> list[tuple[int, int]]:
+    """
+    Rank possible Vigenere key lengths using GCD results.
+
+    Each n-gram contributes one vote to every candidate key length
+    that divides its GCD.
+
+    Args:
+        ngram_gcds: Dictionary mapping n-grams to their GCD values.
+        min_key_length: Minimum candidate key length.
+        max_key_length: Maximum candidate key length.
+
+    Returns:
+        A list of (key_length, score) tuples sorted by:
+        1. Descending score.
+        2. Ascending key length.
+    """
+    if not isinstance(ngram_gcds, dict):
+        raise TypeError("ngram_gcds must be a dictionary")
+
+    if (
+        isinstance(min_key_length, bool)
+        or not isinstance(min_key_length, int)
+    ):
+        raise TypeError("min_key_length must be an integer")
+
+    if (
+        isinstance(max_key_length, bool)
+        or not isinstance(max_key_length, int)
+    ):
+        raise TypeError("max_key_length must be an integer")
+
+    if min_key_length < 2:
+        raise ValueError("min_key_length must be at least 2")
+
+    if max_key_length < min_key_length:
+        raise ValueError(
+            "max_key_length must be >= min_key_length"
+        )
+
+    for ngram, value in ngram_gcds.items():
+        if not isinstance(ngram, str):
+            raise TypeError("n-gram keys must be strings")
+
+        if isinstance(value, bool) or not isinstance(value, int):
+            raise TypeError("GCD values must be integers")
+
+        if value <= 0:
+            raise ValueError("GCD values must be positive")
+
+    # Initialize the score of every candidate key length.
+    scores = {
+        key_length: 0
+        for key_length in range(
+            min_key_length,
+            max_key_length + 1
+        )
+    }
+
+    # Each n-gram contributes one vote to each valid divisor.
+    for gcd_value in ngram_gcds.values():
+        for key_length in scores:
+            if gcd_value % key_length == 0:
+                scores[key_length] += 1
+
+    # Sort by descending score, then ascending key length.
+    return sorted(
+        scores.items(),
+        key=lambda item: (-item[1], item[0])
+    )
