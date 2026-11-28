@@ -26,7 +26,9 @@ P(c)=\frac{f(c)}{N}
 
 ### 4.1.2. Vai trò của phân tích tần suất trong thám mã
 
-- Phân tích tần suất có thể hỗ trợ phá một số hệ mã cổ điển: như mật mã thay thế đơn bảng chữ cái, mật mã chuyển vị và mật mã đa bảng chữ cái như Vigenere
+- Phân tích tần suất hỗ trợ tốt phá khóa mật mã thay thế đơn bảng chữ cái như Caesar, Affine và các dạng thay thế đơn bảng khác.
+- Mật mã chuyển vị bảo toàn tần suất xuất hiện của các chữ cái, vì vậy phân tích tần suất đơn thuần không thể khôi phục trực tiếp phép hoán vị.
+- Mật mã Vigenere làm phân bố tần suất tổng thể trở nên phức tạp hơn; cần kết hợp các phương pháp như Kasiski Examination hoặc phân tích tần suất theo từng nhóm vị trí.
 
 ### 4.1.3. Cài đặt và thiết kế thuật toán
 
