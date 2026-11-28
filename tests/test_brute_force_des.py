@@ -70,9 +70,21 @@ def test_brute_force_des_reduced_tries_full_small_keyspace():
 
 
 def test_brute_force_des_reduced_no_match():
-    """Return an empty list if no candidate matches."""
+    """Return no candidates when the target key is outside the search space."""
+
     plaintext = 0x0123456789ABCDEF
-    ciphertext = 0x0000000000000000
+
+    # This key has a non-zero bit among the 48 lower bits.
+    # The 4-bit search fixes those lower bits to zero.
+    effective_key = 0xA0000000000001
+
+    des_key = _effective_key_to_des_key(effective_key)
+
+    ciphertext = encrypt_block_rounds(
+        plaintext,
+        des_key,
+        rounds=4,
+    )
 
     results = brute_force_des_reduced(
         plaintext,

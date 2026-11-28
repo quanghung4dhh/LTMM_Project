@@ -1,5 +1,5 @@
 
-"""Brute-force attacks against classical ciphers."""
+"""Brute-force attacks against classical and modern ciphers."""
 
 from src.classical.substitution import (
     shift_decrypt,
