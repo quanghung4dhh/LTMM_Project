@@ -1,4 +1,5 @@
 
+from src.cryptanalysis.kasiski import kasiski_examination
 from src.cryptanalysis.kasiski import rank_key_length_candidates
 from src.cryptanalysis.kasiski import calculate_ngram_gcds
 from src.cryptanalysis.kasiski import calculate_ngram_distances
@@ -335,3 +336,77 @@ def test_rank_key_length_candidates_invalid_range():
             min_key_length=5,
             max_key_length=2,
         )
+
+
+def test_kasiski_examination_basic():
+    result = kasiski_examination(
+        "ABCXABCYABC",
+        n=3,
+        min_key_length=2,
+        max_key_length=10,
+    )
+
+    assert result["repeated_ngrams"] == {
+        "ABC": [0, 4, 8]
+    }
+
+    assert result["distances"] == {
+        "ABC": [4, 4]
+    }
+
+    assert result["gcds"] == {
+        "ABC": 4
+    }
+
+    assert result["candidates"] == [
+        (2, 1),
+        (4, 1),
+    ]
+
+
+def test_kasiski_examination_no_repeated_ngrams():
+    result = kasiski_examination(
+        "ABCDEFG",
+        n=3,
+    )
+
+    assert result["repeated_ngrams"] == {}
+    assert result["distances"] == {}
+    assert result["gcds"] == {}
+    assert result["candidates"] == []
+
+
+def test_kasiski_examination_empty_ciphertext():
+    result = kasiski_examination("")
+
+    assert result["repeated_ngrams"] == {}
+    assert result["candidates"] == []
+
+
+def test_kasiski_examination_ignores_punctuation():
+    result = kasiski_examination(
+        "ABC!ABC?ABC",
+        n=3,
+    )
+
+    assert result["repeated_ngrams"] == {
+        "ABC": [0, 3, 6],
+        "BCA": [1, 4],
+        "CAB": [2, 5],
+    }
+
+    assert result["distances"] == {
+        "ABC": [3, 3],
+        "BCA": [3],
+        "CAB": [3],
+    }
+
+    assert result["gcds"] == {
+        "ABC": 3,
+        "BCA": 3,
+        "CAB": 3,
+    }
+
+    assert result["candidates"] == [
+        (3, 3)
+    ]

@@ -239,3 +239,65 @@ def rank_key_length_candidates(
         scores.items(),
         key=lambda item: (-item[1], item[0])
     )
+
+
+def kasiski_examination(
+    ciphertext: str,
+    n: int = 3,
+    min_key_length: int = 2,
+    max_key_length: int = 20,
+) -> dict:
+    """
+    Perform a complete Kasiski examination.
+
+    Args:
+        ciphertext: Vigenere ciphertext to analyze.
+        n: Length of repeated n-grams.
+        min_key_length: Minimum candidate key length.
+        max_key_length: Maximum candidate key length.
+
+    Returns:
+        A dictionary containing:
+        - repeated_ngrams: Repeated n-grams and their positions.
+        - distances: Consecutive distances between occurrences.
+        - gcds: GCD values for each repeated n-gram.
+        - candidates: Ranked possible key lengths.
+    """
+
+    # Step 1: Find repeated n-grams.
+    repeated_ngrams = find_repeated_ngrams(
+        ciphertext,
+        n
+    )
+
+    # Step 2: Calculate distances between occurrences.
+    distances = calculate_ngram_distances(
+        repeated_ngrams
+    )
+
+    # Step 3: Calculate GCD for each n-gram.
+    gcds = calculate_ngram_gcds(
+        distances
+    )
+
+    # Step 4: Rank possible key lengths.
+    ranked_candidates = rank_key_length_candidates(
+        gcds,
+        min_key_length,
+        max_key_length
+    )
+
+    # Do not report zero-score candidates when no useful
+    # GCD evidence is available.
+    candidates = [
+        (key_length, score)
+        for key_length, score in ranked_candidates
+        if score > 0
+    ]
+
+    return {
+        "repeated_ngrams": repeated_ngrams,
+        "distances": distances,
+        "gcds": gcds,
+        "candidates": candidates,
+    }
