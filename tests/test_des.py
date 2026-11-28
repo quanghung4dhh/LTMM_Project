@@ -15,6 +15,8 @@ from src.modern.des import (
     feistel_function,
     encrypt_block,
     decrypt_block,
+    encrypt_block_rounds,
+    decrypt_block_rounds,
 )
 
 
@@ -273,3 +275,45 @@ def test_encrypt_block_invalid_key():
 def test_decrypt_block_invalid_ciphertext():
     with pytest.raises(ValueError):
         decrypt_block(1 << 64, 0x133457799BBCDFF1)
+
+
+def test_reduced_round_des_roundtrip():
+    key = 0x133457799BBCDFF1
+    plaintext = 0x0123456789ABCDEF
+
+    for rounds in (1, 2, 4, 8, 16):
+        ciphertext = encrypt_block_rounds(
+            plaintext, key, rounds
+        )
+
+        decrypted = decrypt_block_rounds(
+            ciphertext, key, rounds
+        )
+
+        assert decrypted == plaintext
+
+
+def test_reduced_round_des_16_round_matches_standard():
+    key = 0x133457799BBCDFF1
+    plaintext = 0x0123456789ABCDEF
+
+    assert encrypt_block_rounds(
+        plaintext, key, 16
+    ) == encrypt_block(plaintext, key)
+
+
+def test_reduced_round_des_invalid_rounds():
+    key = 0x133457799BBCDFF1
+    plaintext = 0x0123456789ABCDEF
+
+    for rounds in (0, 17, -1):
+        with pytest.raises(ValueError):
+            encrypt_block_rounds(plaintext, key, rounds)
+
+
+def test_reduced_round_des_invalid_rounds_type():
+    key = 0x133457799BBCDFF1
+    plaintext = 0x0123456789ABCDEF
+
+    with pytest.raises(TypeError):
+        encrypt_block_rounds(plaintext, key, 2.5)
