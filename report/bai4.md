@@ -46,19 +46,53 @@ P(c)=\frac{f(c)}{N}
 
 ### 4.2.1 Xây dựng thuật toán
 
-- Ở trong bài tập lớn này, thuật toán chỉ sử dụng tấn công brute force để giải mã mật mã dịch, hay mật mã Caesar
+- Ở trong bài tập lớn này, thuật toán chỉ sử dụng tấn công brute force để giải mã mật mã dịch, hay mật mã Caesar và mật mã Affine
+
+#### 4.2.1.1 Brute force mật mã dịch
+
 - Với mật mã Caesar, công thức mã hóa là
-  <p align="center">
-    C = (P + K) mod 26
-  </p>
+
+  ```math
+    C = (P + K) \bmod 26
+  ```
+
 - Công thức giải mã:
-  <p align="center">
-    P = (C - K) mod 26
-  </p>
+
+  ```math
+    P = (C - K) \bmod 26
+  ```
+
 - Vì chúng ta chỉ mã hóa các ký tự trong bảng chữ cái tiếng Anh nên không gian khóa có 26 phần tử thuộc Z_26
 - Với tấn công brute force, ta sẽ thử lần lượt các khóa trong Z_26 rồi từ đó đánh giá để tìm ra khóa đúng cũng như là bản rõ
 - Lưu đồ thuật toán: <br>
   ![Brute Force Attack](../assets/brute_force.png) <br>
+- Đánh giá độ phức tạp thuật toán:
+  - Độ phức tạp thời gian: O(NL)
+  - Độ phức tạp không gian: O(NL)
+- Trong đó:
+  - N là số lượng các phần tử trong không gian khóa
+  - L là độ dài các ký tự bản mã
+
+#### 4.2.1.2 Brute force mật mã affine
+
+- Với mật mã Affine, công thức mã hóa là:
+
+```math
+C = (aP + b) \bmod 26
+```
+
+- Công thức giải mã:
+
+```math
+P = a^{-1}(C-b) \bmod 26
+```
+
+- Trong đó:
+  - Khóa a là khóa nhân thuộc tập $Z_{26}^{*}$ gồm 12 phần tử
+  - Khóa b là khóa cộng thuộc tập $Z_{26}$ gồm 26 phần tử
+- Do đó, không gian khóa của mật mã Affine có 312 phần tử
+- Lưu đồ thuật toán: <br>
+  ![Brute Force Attack](../assets/brute_force_affine.png) <br>
 - Đánh giá độ phức tạp thuật toán:
   - Độ phức tạp thời gian: O(NL)
   - Độ phức tạp không gian: O(NL)
