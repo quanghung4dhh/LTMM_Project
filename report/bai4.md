@@ -32,3 +32,36 @@ P(c)=\frac{f(c)}{N}
 
 ![Frequency Analysis](../assets/freq.png)
 <br>
+
+## 4.2 Tấn công vét cạn (Brute Force Attack):
+
+- Brute Force là phương pháp thám mã bằng cách thử lần lượt tất cả các khóa có thể thuộc không gian khóa của một hệ mật mã, sau đó đánh giá kết quả để tìm ra khóa đúng
+- Ví dụ như mật mã dịch có không gian khóa là Z_26
+- Ý tưởng:
+  - Xác định không gian khóa có thể có
+  - Sinh lần lượt từng khóa
+  - Sử dụng mỗi khóa để thử giải mã bản mã
+  - Đánh giá các bản rõ thu được
+  - Đưa ra kết quả có khả năng đúng
+
+### 4.2.1 Xây dựng thuật toán
+
+- Ở trong bài tập lớn này, thuật toán chỉ sủe dụng tấn công brute force để giải mã mật mã dịch, hay mật mã Ceaser
+- Với mật mã Ceasar, công thức mã hóa là
+  <p align="center">
+    C = (P + K) mod 26
+  </p>
+- Công thức giải mã:
+  <p align="center">
+    P = (C - K) mod 26
+  </p>
+- Vì chúng ta chỉ mã hóa các ký tự trong bảng chữ cái tiếng Anh nên không gian khóa có 26 phần tử thuộc Z_26
+- Với tấn công brute force, ta sẽ thử lần lượt các khóa trong Z_26 rồi từ đó đánh giá để tìm ra khóa đúng cũng như là bản rõ
+- Lưu đồ thuật toán: <br>
+  ![Brute Force Attack](../assets/brute_force.png)
+- Đánh giá độ phức tạp thuật toán:
+  - Độ phức tạp thời gian: O(NL)
+  - Độ phức tạp không gian: O(NL)
+- Trong đó:
+  - N là số lượng các phần tử trong không gian khóa
+  - L là độ dài các ký tự bản mã
